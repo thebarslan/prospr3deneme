@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
 import Loader from "../components/loader";
+import { usePathname } from "next/navigation";
 
 const TOKEN_KEY = "my-jwt";
 const USER_KEY = "user-data";
@@ -11,16 +12,32 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
    const [isLoading, setIsLoading] = useState(false);
-   const [authState, setAuthState] = useState({
-      token: localStorage.getItem(TOKEN_KEY) || null, // Initialize from localStorage
-      authenticated: !!localStorage.getItem(TOKEN_KEY), // Check if token exists
-      user: JSON.parse(localStorage.getItem(USER_KEY)) || {
-         // Initialize from localStorage
-         username: "",
-         id: null,
-         balance: 0,
-      },
+   const [authState, setAuthState] = useState(() => {
+      // Check if window and localStorage exist before accessing them
+      if (typeof window !== "undefined" && window.localStorage) {
+         return {
+            token: localStorage.getItem(TOKEN_KEY) || null,
+            authenticated: !!localStorage.getItem(TOKEN_KEY) || false,
+            user: JSON.parse(localStorage.getItem(USER_KEY)) || {
+               username: "",
+               id: null,
+               balance: 0,
+            },
+         };
+      } else {
+         // If localStorage is not available, return a default unauthenticated state
+         return {
+            token: null,
+            authenticated: false,
+            user: {
+               username: "",
+               id: null,
+               balance: 0,
+            },
+         };
+      }
    });
+   const pathname = usePathname();
 
    const apiClient = axios.create({
       baseURL: "https://q4k6d8kz-8000.euw.devtunnels.ms",
@@ -29,11 +46,11 @@ export const AuthProvider = ({ children }) => {
          Accept: "application/json",
       },
    });
-
-   useEffect(() => {
-      const loadAuthData = () => {
+   const loadAuthData = () => {
+      try {
          const token = localStorage.getItem(TOKEN_KEY);
          const storedUserData = localStorage.getItem(USER_KEY);
+         // ... rest of your loadAuthData logic
          if (token && storedUserData) {
             const userData = JSON.parse(storedUserData);
             axios.defaults.headers.common["Authorization"] = `Token ${token}`;
@@ -43,14 +60,37 @@ export const AuthProvider = ({ children }) => {
                user: userData,
             });
          }
-      };
-
+      } catch (error) {
+         console.error("Error accessing localStorage:", error);
+         // Handle the error gracefully, e.g., set a default unauthenticated state
+         setAuthState({
+            token: null,
+            authenticated: false,
+            user: { username: "", id: null, balance: 0 },
+         });
+      }
+   };
+   //    const loadAuthData = () => {
+   //       const token = localStorage.getItem(TOKEN_KEY);
+   //       const storedUserData = localStorage.getItem(USER_KEY);
+   //       if (token && storedUserData) {
+   //          const userData = JSON.parse(storedUserData);
+   //          axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+   //          setAuthState({
+   //             token: token,
+   //             authenticated: true,
+   //             user: userData,
+   //          });
+   //       }
+   //    };
+   useEffect(() => {
+      // Check for authentication data immediately on component mount
       loadAuthData();
-   }, []);
+   }, []); // Empty dependency array ensures this runs only once
 
    const getBalance = async () => {
       try {
-         const response = await apiClient.get("/users/users/my_balance", {});
+         const response = await apiClient.get("/users/users/my_balance/", {});
          const data = response.data;
          return data;
       } catch (error) {
