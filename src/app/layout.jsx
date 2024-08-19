@@ -16,7 +16,10 @@ export default function RootLayout({ children }) {
       <AuthProvider>
          <html lang="en">
             <head>
-               <script src="https://telegram.org/js/telegram-web-app.js"></script>
+               <script
+                  src="https://telegram.org/js/telegram-web-app.js"
+                  async
+               ></script>
             </head>
             <body className={inter.className}>
                <Container>
