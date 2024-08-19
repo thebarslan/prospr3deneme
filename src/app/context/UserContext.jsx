@@ -88,6 +88,16 @@ export const AuthProvider = ({ children }) => {
       loadAuthData();
    }, []); // Empty dependency array ensures this runs only once
 
+   const getGameSettings = async () => {
+      try {
+         const response = await apiClient.get("/game/settings/current/", {});
+         const data = response.data;
+         return data;
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    const getBalance = async () => {
       try {
          const response = await apiClient.get("/users/users/my_balance/", {});
@@ -207,6 +217,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(true);
       if (localStorage.getItem(TOKEN_KEY)) {
          console.log("Kullanıcı zaten giriş yapmış.");
+         console.log(authState.user);
          return;
       }
       try {
@@ -268,6 +279,7 @@ export const AuthProvider = ({ children }) => {
       onGetDailyReward: getDailyReward,
       onGetUserRewards: getUserRewards,
       onGameEndSendScore: gameEndSendScore,
+      onGetGameSettings: getGameSettings,
    };
 
    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

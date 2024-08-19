@@ -251,7 +251,7 @@ const Tasks = () => {
                               </div>
                            </div>
                            <div className="right w-[52px] h-full flex items-center justify-end">
-                              {task.taskIsFinished ? (
+                              {task.completed ? (
                                  <FaCircleCheck
                                     color="#00CD46"
                                     className="text-[#00CD46] w-7 h-auto"

@@ -4,6 +4,9 @@ import CoinIcon from "../components/coinIcon";
 import Image from "next/image";
 import VectorBG from "../../app/assets/images/vectorbg.png";
 import { useAuth } from "../context/UserContext";
+import Loader from "../components/loader";
+import CoinIconImage from "../components/coinIconImage";
+import Link from "next/link";
 
 const CoinIconPressable = ({
    id,
@@ -11,11 +14,16 @@ const CoinIconPressable = ({
    type = 0,
    onRemove,
    gainPoints,
+   moveSpeed,
+   defaultImage,
+   secondImage,
+   thirdImage,
 }) => {
    const handleClick = () => {
       gainPoints(type); // Call gainPoints first if needed
       onRemove(id);
    };
+   const { authState, onGetGameSettings } = useAuth();
    const [top, setTop] = useState(0);
    const divRef = useRef(null);
 
@@ -30,7 +38,7 @@ const CoinIconPressable = ({
                onRemove(id); // Remove the icon if it's out of view
             }
          }
-      }, 6); // Adjust the '30' for smoother/faster movement
+      }, moveSpeed); // Adjust the '30' for smoother/faster movement
 
       return () => clearInterval(moveInterval);
    }, [id, onRemove]);
@@ -42,14 +50,26 @@ const CoinIconPressable = ({
          style={{ left: `${left}%`, top: `${top}px` }}
          onClick={handleClick}
       >
-         {type === 0 && <CoinIcon size={48} />}
-         {type === 1 && <CoinIcon size={48} withPlus={true} />}
-         {type === 2 && <CoinIcon size={48} color="#FF0404" />}
+         {type === 0 && <CoinIconImage size={48} url={defaultImage} />}
+         {type === 1 && (
+            <CoinIconImage size={48} url={defaultImage} withPlus={true} />
+         )}
+         {type === 2 && <CoinIconImage size={48} url={secondImage} />}
+         {type === 3 && <CoinIconImage size={48} url={thirdImage} />}
       </div>
    );
 };
 
 const Game = () => {
+   const { authState, onGetGameSettings } = useAuth();
+   const [loading, setLoading] = useState(true);
+
+   const [spawnSpeed, setSpawnSpeed] = useState(0);
+   const [moveSpeed, setMoveSpeed] = useState(0);
+   const [defaultImage, setDefaultImage] = useState("");
+   const [secondImage, setSecondImage] = useState("");
+   const [thirdImage, setThirdImage] = useState("");
+
    const [currentScore, setCurrentScore] = useState(0);
    const [tempScoreDene, setTempScoreDene] = useState(0);
    const [isGameOver, setIsGameOver] = useState(false);
@@ -58,7 +78,7 @@ const Game = () => {
    const { onGameEndSendScore } = useAuth();
 
    useEffect(() => {
-      if (!isGameOver) {
+      if (!isGameOver && !loading) {
          const timerInterval = setInterval(() => {
             setTimeLeft((prevTime) => {
                if (prevTime > 0) {
@@ -73,7 +93,36 @@ const Game = () => {
             clearInterval(timerInterval);
          };
       }
-   }, [isGameOver]);
+   }, [isGameOver, loading]);
+
+   useEffect(() => {
+      const handleGameSettings = async () => {
+         try {
+            setLoading(true);
+            const result = await onGetGameSettings();
+            let tempSpawnSpeed = result.spawn_speed;
+            tempSpawnSpeed = ((100 - tempSpawnSpeed) / 100) * 500;
+            console.log(tempSpawnSpeed);
+            setSpawnSpeed(tempSpawnSpeed);
+            console.log(result.spawn_speed);
+            let tempMoveSpeed = result.move_speed;
+            tempMoveSpeed = ((100 - tempMoveSpeed) / 100) * 10;
+            console.log(tempMoveSpeed);
+            setMoveSpeed(tempMoveSpeed);
+            console.log(result.move_speed);
+            setDefaultImage(result.game_icon);
+            setSecondImage(result.game_icon2);
+            setThirdImage(result.game_icon3);
+
+            // Use setTimeout to introduce a 1-second delay
+            setLoading(false);
+         } catch (error) {
+            console.log(error);
+         }
+      };
+
+      handleGameSettings();
+   }, []);
 
    useEffect(() => {
       if (isGameOver) {
@@ -97,7 +146,7 @@ const Game = () => {
    };
 
    useEffect(() => {
-      if (!isGameOver) {
+      if (!isGameOver && !loading) {
          const spawnInterval = setInterval(() => {
             const randomNumber = Math.floor(Math.random() * 100);
 
@@ -118,13 +167,13 @@ const Game = () => {
                type: type, // Random type (0, 1, or 2)
             };
             setCoinIcons([...coinIcons, newIcon]);
-         }, 250);
+         }, spawnSpeed);
 
          return () => {
             clearInterval(spawnInterval);
          };
       }
-   }, [coinIcons, isGameOver]);
+   }, [coinIcons, isGameOver, loading]);
 
    const handleRestart = () => {
       handleSendScore(-10);
@@ -163,6 +212,13 @@ const Game = () => {
       }
       setCurrentScore(tempScore);
    };
+   if (loading) {
+      return (
+         <div className="w-full h-full bg-black">
+            <Loader />
+         </div>
+      );
+   }
    return (
       <div className="main w-full h-full flex-1 bg-black flex flex-col relative">
          {isGameOver && (
@@ -175,12 +231,20 @@ const Game = () => {
                   <CoinIcon size={24} />
                </button>
                <button
-                  className="bg-secondary1 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
+                  className="bg-secondary2 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
                   onClick={handleRestart}
                >
                   <h5 className="text-black text-[17px]">Earn More Points</h5>
                   <CoinIcon size={24} />
                </button>
+               <Link
+                  className="bg-secondary1 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
+                  href="/"
+               >
+                  <h5 className="text-black text-[17px]">
+                     Return to Main Menu
+                  </h5>
+               </Link>
             </div>
          )}
          <Image
@@ -215,6 +279,10 @@ const Game = () => {
                      type={icon.type}
                      onRemove={handleRemoveCoinIcon}
                      gainPoints={handleOnClick}
+                     moveSpeed={moveSpeed}
+                     defaultImage={defaultImage}
+                     secondImage={secondImage}
+                     thirdImage={thirdImage}
                   />
                ))}
             </div>

@@ -11,19 +11,37 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "./context/UserContext";
 import { useRouter } from "next/navigation";
+const tele = window.Telegram.WebApp;
+
 export default function Home() {
+   useEffect(() => {
+      tele.ready();
+      tele.expand();
+   }, []);
    const router = useRouter();
 
    const [showDailyReward, setShowDailyReward] = useState(false);
    const [loading, setLoading] = useState(false);
-   const { authState, onLogout, onLoginOrCreate, onGetBalance, isActive } =
-      useAuth();
+   const {
+      authState,
+      onLogout,
+      onLoginOrCreate,
+      onGetBalance,
+      isActive,
+      onGetGameSettings,
+   } = useAuth();
+
+   const [maxFreePlayableGames, setMaxFreePlayableGames] = useState(0);
+   const [maxPaidPlayableGames, setMaxPaidPlayableGames] = useState(0);
+   const [canPlayFree, setCanPlayFree] = useState(true);
+   const [canPlay, setCanPlay] = useState(true);
 
    const [balance, setBalance] = useState(0);
    useEffect(() => {
       const handleLogin = async () => {
          try {
-            await onLoginOrCreate("1123131", "abcd");
+            const result = await onLoginOrCreate("1123131", "abcd");
+            if (result) console.log(result);
             console.log("Logged In");
          } catch (error) {
             console.log(error);
@@ -40,13 +58,58 @@ export default function Home() {
             console.log(error);
          }
       };
+      const handleGameSettings = async () => {
+         try {
+            const result = await onGetGameSettings();
+            setMaxFreePlayableGames(result.daily_free_games);
+            setMaxPaidPlayableGames(result.daily_paid_game_limit);
+            // Use setTimeout to introduce a 1-second delay
+            handleGamePlayed(
+               result.daily_free_games,
+               result.daily_paid_game_limit
+            );
+            setLoading(false);
+         } catch (error) {
+            console.log(error);
+         }
+      };
+      const handleGamePlayed = (freeLimit, paidLimit) => {
+         console.log("Daily games played:" + authState.user.daily_games_played);
+         console.log(
+            "Daily paid games played:" + authState.user.daily_paid_games_played
+         );
+         console.log("Free limit: " + freeLimit);
+         console.log("Paid limit: " + paidLimit);
+         if (
+            authState.user.daily_games_played -
+               authState.user.daily_paid_games_played >=
+            freeLimit
+         ) {
+            setCanPlayFree(false);
+            console.log("a");
+         }
+         if (
+            authState.user.daily_games_played -
+               authState.user.daily_paid_games_played >
+               freeLimit &&
+            authState.user.daily_games_played -
+               authState.user.daily_paid_games_played <
+               paidLimit
+         ) {
+            setCanPlay(true);
+            console.log("b");
+         }
+         console.log("c");
+      };
+
       handleLogin();
+      handleGameSettings();
       handleBalance();
    }, []);
 
    const logout = () => {
       onLogout();
-      router.push("/login");
+      router.push("/");
    };
    if (loading) {
       return (
@@ -62,7 +125,6 @@ export default function Home() {
                onClose={() => setShowDailyReward(false)}
                showDailyReward={showDailyReward}
             />
-
             <div className="profile-part flex-[4] w-full h-full relative flex items-center justify-center">
                <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
                <div className="profile-info-container flex items-center gap-6 relative z-80">
@@ -116,9 +178,11 @@ export default function Home() {
                   <Link
                      href="/game"
                      className="button w-full gap-4 h-[88px] bg-grayBg rounded-lg overflow-hidden relative flex items-center justify-center"
+                     disabled={!canPlay}
                   >
                      <h5 className="text-lg font-bold drop-shadow-text">
-                        Play Drop Game
+                        {canPlay && canPlayFree && "Daily Free Game"}
+                        {canPlay && !canPlayFree && "Daily Paid Game"}
                      </h5>
                      <div className="px-4 py-1 rounded-xl bg-secondary3 text-black text-[13px] font-bold">
                         Play

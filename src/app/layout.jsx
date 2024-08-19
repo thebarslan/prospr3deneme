@@ -15,6 +15,9 @@ export default function RootLayout({ children }) {
    return (
       <AuthProvider>
          <html lang="en">
+            <head>
+               <script src="https://telegram.org/js/telegram-web-app.js"></script>
+            </head>
             <body className={inter.className}>
                <Container>
                   <div className="main relative z-20 flex h-full w-full flex-col justify-between flex-1">
