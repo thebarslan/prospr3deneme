@@ -11,10 +11,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "./context/UserContext";
 import { useRouter } from "next/navigation";
-const tele = window.Telegram.WebApp;
 
 export default function Home() {
    useEffect(() => {
+      const tele = window.Telegram.WebApp;
       tele.ready();
       tele.expand();
    }, []);
