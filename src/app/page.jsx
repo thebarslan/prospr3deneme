@@ -35,7 +35,7 @@ export default function Home() {
 
    const [balance, setBalance] = useState(0);
 
-   const [telegramId, setTelegramId] = useState("");
+   const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
 
    useEffect(() => {
@@ -46,15 +46,16 @@ export default function Home() {
 
       const user = tele.initDataUnsafe.user;
       if (user) {
-         setTelegramId(user.id.toString());
+         setTelegramId(user.id);
          setTelegramUsername(user.username);
+         if (authState.authenticated && authState.user.id !== user.id) {
+            logout();
+         }
       } else {
          setTelegramId("1123131");
          setTelegramUsername("abcd");
       }
-      if (authState?.user.id.toString() !== telegramId) {
-         logout();
-      }
+
       console.log(telegramId, telegramUsername);
       // 1123131 abcd
       const handleLogin = async () => {
