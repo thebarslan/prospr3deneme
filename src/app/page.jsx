@@ -44,9 +44,9 @@ export default function Home() {
       setLoading(true);
       const tele = window.Telegram.WebApp;
       if (
-         tele.platform.toLowerCase() !== "android" ||
-         tele.platform.toLowerCase() !== "ios" ||
-         tele.platform.toLowerCase() !== "iphone" ||
+         tele.platform.toLowerCase() !== "android" &&
+         tele.platform.toLowerCase() !== "ios" &&
+         tele.platform.toLowerCase() !== "iphone" &&
          tele.platform.toLowerCase() !== "ipad"
       ) {
          tele.close();
