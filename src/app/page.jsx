@@ -151,7 +151,7 @@ export default function Home() {
    }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
    const handleProfilePicture = () => {
       let url = telegramPhotoUrl;
-      if (url === "" || url === null) {
+      if (url === "" || url === null || url === undefined) {
          setHaveProfileImg(false);
          return;
       }
