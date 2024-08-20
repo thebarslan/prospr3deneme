@@ -40,6 +40,8 @@ export default function Home() {
    const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("A");
    const prevTelegramId = useRef(null);
 
+   const bot_token = "7241185029:AAEwQa-cJHEfdjaJhWXamHJZu31wD84BtX8";
+
    useEffect(() => {
       setLoading(true);
       const tele = window.Telegram.WebApp;
@@ -55,7 +57,7 @@ export default function Home() {
          prevTelegramId.current = currentTelegramId;
          setTelegramId(currentTelegramId);
          setTelegramUsername(currentTelegramUsername);
-         setTelegramPhotoUrl(currentTelegramPhotoUrl);
+         //    setTelegramPhotoUrl(currentTelegramPhotoUrl);
          console.log(currentTelegramPhotoUrl);
       }
 
@@ -72,6 +74,19 @@ export default function Home() {
       if (telegramId && telegramUsername) {
          handleLogin();
       }
+
+      const fetchProfile = async () => {
+         const profiles = await axios.get(
+            `https://api.telegram.org/bot${bot_token}/getUserProfilePhotos?user_id=${user_id}`
+         );
+         const file_path = await axios.get(
+            `https://api.telegram.org/bot${bot_token}/getFile?file_id=${profiles.data.result.photos[0][2].file_id}`
+         );
+         setTelegramPhotoUrl(
+            `https://api.telegram.org/file/bot${bot_token}/${file_path.data.result.file_path}`
+         );
+      };
+      fetchProfile();
 
       // const handleBalance = async () => {
       //    setLoading(true);
@@ -146,7 +161,7 @@ export default function Home() {
          }
          console.log("c");
       };
-      handleProfilePicture();
+      // handleProfilePicture();
       handleGameSettings();
    }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
    const handleProfilePicture = () => {
