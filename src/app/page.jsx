@@ -37,6 +37,7 @@ export default function Home() {
 
    const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
+   const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("");
    const prevTelegramId = useRef(null);
 
    useEffect(() => {
@@ -48,11 +49,14 @@ export default function Home() {
       const user = tele.initDataUnsafe.user;
       const currentTelegramId = user ? user.id : "1123131";
       const currentTelegramUsername = user ? user.username : "abcd";
+      const currentTelegramPhotoUrl = user ? user.photo_url : "";
 
       if (prevTelegramId.current !== currentTelegramId) {
          prevTelegramId.current = currentTelegramId;
          setTelegramId(currentTelegramId);
          setTelegramUsername(currentTelegramUsername);
+         setTelegramPhotoUrl(currentTelegramPhotoUrl);
+         console.log(currentTelegramPhotoUrl);
       }
 
       const handleLogin = async () => {
@@ -142,9 +146,9 @@ export default function Home() {
          }
          console.log("c");
       };
-      const handleProfilePicture = () => {
+      const handleProfilePicture = async () => {
          if (authState.authenticated) {
-            let url = authState.user.profile_photo_url;
+            let url = await authState.user.profile_photo_url;
             if (url === null) {
                setHaveProfileImg(false);
                return;
@@ -183,7 +187,7 @@ export default function Home() {
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
                   {haveProfileImg ? (
                      <Image
-                        src={authState.user.profile_photo_url}
+                        src={telegramPhotoUrl}
                         width={96}
                         height={96}
                         alt="profile"
