@@ -148,7 +148,7 @@ export default function Home() {
       };
       handleProfilePicture();
       handleGameSettings();
-   }, [authState, onClaim, telegramId, telegramUsername]);
+   }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
    const handleProfilePicture = async () => {
       if (authState.authenticated) {
          let url = telegramPhotoUrl;
