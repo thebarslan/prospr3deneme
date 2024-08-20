@@ -65,7 +65,6 @@ export default function Home() {
             console.error("Authorization request failed:", error);
             // ... handle authorization failure
          });
-      const user = tele.initDataUnsafe.user;
 
       console.log(telegramId, telegramUsername);
       // 1123131 abcd
