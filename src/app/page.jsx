@@ -49,7 +49,7 @@ export default function Home() {
       const user = tele.initDataUnsafe.user;
       const currentTelegramId = user ? user.id : "1123131";
       const currentTelegramUsername = user ? user.username : "abcd";
-      const currentTelegramPhotoUrl = user ? user.photo_url : "";
+      const currentTelegramPhotoUrl = user ? user.photo_url : "A";
 
       if (prevTelegramId.current !== currentTelegramId) {
          prevTelegramId.current = currentTelegramId;
