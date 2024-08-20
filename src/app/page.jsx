@@ -43,6 +43,9 @@ export default function Home() {
    useEffect(() => {
       setLoading(true);
       const tele = window.Telegram.WebApp;
+      if (tele.platform !== "android" || tele.platform !== "ios") {
+         tele.close();
+      }
       tele.ready();
       tele.expand();
 
