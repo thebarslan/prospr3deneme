@@ -149,15 +149,13 @@ export default function Home() {
       handleProfilePicture();
       handleGameSettings();
    }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
-   const handleProfilePicture = async () => {
-      if (authState.authenticated) {
-         let url = telegramPhotoUrl;
-         if (url === "A" || url === null) {
-            setHaveProfileImg(false);
-            return;
-         }
-         setHaveProfileImg(true);
+   const handleProfilePicture = () => {
+      let url = telegramPhotoUrl;
+      if (url === "A" || url === null) {
+         setHaveProfileImg(false);
+         return;
       }
+      setHaveProfileImg(true);
    };
    const logout = () => {
       onLogout();
