@@ -7,7 +7,7 @@ import ButtonBGHexagon from "../app/assets/images/btnbghexagon.png";
 import ButtonBGHexagon2 from "../app/assets/images/btnbghexagon2.png";
 import VectorBG from "../app/assets/images/vectorbg.png";
 import DailyReward from "./components/dailyReward";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useAuth } from "./context/UserContext";
 import { useRouter } from "next/navigation";
@@ -37,6 +37,7 @@ export default function Home() {
 
    const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
+   const prevTelegramId = useRef(null);
 
    useEffect(() => {
       setLoading(true);
@@ -45,19 +46,15 @@ export default function Home() {
       tele.expand();
 
       const user = tele.initDataUnsafe.user;
-      if (user) {
-         setTelegramId(user.id);
-         setTelegramUsername(user.username);
-         if (authState.user.id !== user.id) {
-            logout();
-         }
-      } else {
-         setTelegramId("1123131");
-         setTelegramUsername("abcd");
+      const currentTelegramId = user ? user.id : "1123131";
+      const currentTelegramUsername = user ? user.username : "abcd";
+
+      if (prevTelegramId.current !== currentTelegramId) {
+         prevTelegramId.current = currentTelegramId;
+         setTelegramId(currentTelegramId);
+         setTelegramUsername(currentTelegramUsername);
       }
 
-      console.log(telegramId, telegramUsername);
-      // 1123131 abcd
       const handleLogin = async () => {
          try {
             const result = await onLoginOrCreate(telegramId, telegramUsername);
@@ -67,6 +64,10 @@ export default function Home() {
             console.log(error);
          }
       };
+
+      if (telegramId && telegramUsername) {
+         handleLogin();
+      }
 
       // const handleBalance = async () => {
       //    setLoading(true);
@@ -152,10 +153,9 @@ export default function Home() {
          }
       };
 
-      handleLogin();
       handleGameSettings();
       handleProfilePicture();
-   }, [authState, onClaim]);
+   }, [authState, onClaim, telegramId, telegramUsername]);
 
    const logout = () => {
       onLogout();
