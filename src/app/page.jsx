@@ -39,33 +39,19 @@ export default function Home() {
    const [telegramUsername, setTelegramUsername] = useState("");
 
    useEffect(() => {
-      setTelegramId("1123131");
-      setTelegramUsername("abcd");
       setLoading(true);
       const tele = window.Telegram.WebApp;
       tele.ready();
       tele.expand();
 
-      tele
-         .requestAuth(
-            "Please authorize my bot to access your profile so I can personalize your experience!"
-         )
-         .then(() => {
-            const user = tele.initDataUnsafe.user;
-            if (user) {
-               setTelegramId(user.id.toString());
-               setTelegramUsername(user.username);
-            } else {
-               // Handle gracefully if user still hasn't authorized
-               console.log("User has not authorized yet.");
-               // ... perhaps offer limited functionality or re-prompt later
-            }
-         })
-         .catch((error) => {
-            console.error("Authorization request failed:", error);
-            // ... handle authorization failure
-         });
-
+      const user = tele.initDataUnsafe.user;
+      if (user) {
+         setTelegramId(user.id.toString());
+         setTelegramUsername(user.username);
+      } else {
+         setTelegramId("1123131");
+         setTelegramUsername("abcd");
+      }
       console.log(telegramId, telegramUsername);
       // 1123131 abcd
       const handleLogin = async () => {
@@ -186,6 +172,7 @@ export default function Home() {
             showDailyReward={showDailyReward}
             onClaim={() => setOnClaim(true)}
          />
+         <button onClick={logout}>Logout</button>
          <div className="profile-part flex-[4] w-full h-full relative flex items-center justify-center">
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
