@@ -61,7 +61,7 @@ const CoinIconPressable = ({
 };
 
 const Game = () => {
-   const { authState, onGetGameSettings } = useAuth();
+   const { authState, onGetGameSettings, onStartGame } = useAuth();
    const [loading, setLoading] = useState(true);
 
    const [spawnSpeed, setSpawnSpeed] = useState(0);
@@ -96,6 +96,7 @@ const Game = () => {
    }, [isGameOver, loading]);
 
    useEffect(() => {
+      handleStartGame();
       const handleGameSettings = async () => {
          try {
             setLoading(true);
@@ -129,6 +130,15 @@ const Game = () => {
          handleGameEnd();
       }
    }, [isGameOver]);
+
+   const handleStartGame = async () => {
+      try {
+         await onStartGame();
+      } catch (error) {
+         console.log(error);
+         // Handle the error appropriately, maybe show a message to the user
+      }
+   };
 
    const handleSendScore = async (score) => {
       try {

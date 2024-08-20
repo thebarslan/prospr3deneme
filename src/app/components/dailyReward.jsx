@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import CoinIcon from "./coinIcon";
 import { useAuth } from "../context/UserContext";
 
-const DailyReward = ({ onClose, showDailyReward }) => {
+const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
    const { onGetDailyRewards, authState, onGetUserRewards, onGetDailyReward } =
       useAuth();
    const [rewards, setRewards] = useState([]);
@@ -98,6 +98,7 @@ const DailyReward = ({ onClose, showDailyReward }) => {
          getDailyReward();
          getDailyRewards();
          getUserRewards();
+         onClaim();
          // Perform actual reward claiming logic here
       }, claimDelay * 1000); // Convert delay to milliseconds
    };
@@ -166,6 +167,7 @@ const DailyReward = ({ onClose, showDailyReward }) => {
                                              : "bg-[#191919]"
                                        }
                                              ${
+                                                firstUnclaimedReward !== null &&
                                                 firstUnclaimedReward.day ===
                                                    item.day &&
                                                 isClaimable &&

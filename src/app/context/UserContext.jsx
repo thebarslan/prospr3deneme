@@ -12,31 +12,57 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
    const [isLoading, setIsLoading] = useState(false);
-   const [authState, setAuthState] = useState(() => {
-      // Check if window and localStorage exist before accessing them
-      if (typeof window !== "undefined" && window.localStorage) {
-         return {
-            token: localStorage.getItem(TOKEN_KEY) || null,
-            authenticated: !!localStorage.getItem(TOKEN_KEY) || false,
-            user: JSON.parse(localStorage.getItem(USER_KEY)) || {
-               username: "",
-               id: null,
-               balance: 0,
-            },
-         };
-      } else {
-         // If localStorage is not available, return a default unauthenticated state
-         return {
-            token: null,
-            authenticated: false,
-            user: {
-               username: "",
-               id: null,
-               balance: 0,
-            },
-         };
-      }
+   //    const [authState, setAuthState] = useState(() => {
+   //       // Check if window and localStorage exist before accessing them
+   //       if (typeof window !== "undefined" && window.localStorage) {
+   //          return {
+   //             token: localStorage.getItem(TOKEN_KEY) || null,
+   //             authenticated: !!localStorage.getItem(TOKEN_KEY) || false,
+   //             user: JSON.parse(localStorage.getItem(USER_KEY)) || {
+   //                username: "",
+   //                id: null,
+   //                balance: 0,
+   //             },
+   //          };
+   //       } else {
+   //          // If localStorage is not available, return a default unauthenticated state
+   //          return {
+   //             token: null,
+   //             authenticated: false,
+   //             user: {
+   //                username: "",
+   //                id: null,
+   //                balance: 0,
+   //             },
+   //          };
+   //       }
+   //    });
+   const [authState, setAuthState] = useState({
+      token: null,
+      authenticated: false,
+      user: {
+         username: "",
+         id: null,
+         balance: 0,
+      },
    });
+   useEffect(() => {
+      loadAuthData();
+
+      // console.log("Token almaya çalıştı");
+      // if (typeof window !== "undefined" && window.localStorage) {
+      //    console.log("Token aldı");
+      //    setAuthState({
+      //       authenticated: !!localStorage.getItem("TOKEN_KEY"),
+      //       user: JSON.parse(localStorage.getItem("USER_KEY")) || {
+      //          username: "",
+      //          id: null,
+      //          balance: 0,
+      //       },
+      //       token: localStorage.getItem("TOKEN_KEY"),
+      //    });
+      // }
+   }, []);
    const pathname = usePathname();
 
    const apiClient = axios.create({
@@ -49,6 +75,9 @@ export const AuthProvider = ({ children }) => {
    const loadAuthData = () => {
       try {
          const token = localStorage.getItem(TOKEN_KEY);
+         if (!token) {
+            loginOrCreateWithUsername();
+         }
          const storedUserData = localStorage.getItem(USER_KEY);
          // ... rest of your loadAuthData logic
          if (token && storedUserData) {
@@ -85,7 +114,6 @@ export const AuthProvider = ({ children }) => {
    //    };
    useEffect(() => {
       // Check for authentication data immediately on component mount
-      loadAuthData();
    }, []); // Empty dependency array ensures this runs only once
 
    const getGameSettings = async () => {
@@ -159,6 +187,16 @@ export const AuthProvider = ({ children }) => {
          console.log(error);
       }
    };
+   const gameStart = async () => {
+      try {
+         const response = await apiClient.post("/game/game/start_game/", {});
+         const data = response.data;
+         console.log(data);
+         return data;
+      } catch (error) {
+         console.log(error);
+      }
+   };
    const getTasks = async () => {
       try {
          const response = await apiClient.get("/tasks/user-tasks/", {});
@@ -214,7 +252,6 @@ export const AuthProvider = ({ children }) => {
       telegram_user_id,
       telegram_username
    ) => {
-      setIsLoading(true);
       if (localStorage.getItem(TOKEN_KEY)) {
          console.log("Kullanıcı zaten giriş yapmış.");
          console.log(authState.user);
@@ -241,8 +278,6 @@ export const AuthProvider = ({ children }) => {
          });
       } catch (error) {
          console.error(error);
-      } finally {
-         setIsLoading(false);
       }
    };
 
@@ -269,7 +304,6 @@ export const AuthProvider = ({ children }) => {
       onLoginOrCreate: loginOrCreateWithUsername,
       onLogout: logout,
       authState,
-      isLoading,
       onGetBalance: getBalance,
       onGetTasks: getTasks,
       onFinishTask: finishTask,
@@ -279,6 +313,7 @@ export const AuthProvider = ({ children }) => {
       onGetDailyReward: getDailyReward,
       onGetUserRewards: getUserRewards,
       onGameEndSendScore: gameEndSendScore,
+      onStartGame: gameStart,
       onGetGameSettings: getGameSettings,
    };
 
