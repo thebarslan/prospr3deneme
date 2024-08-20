@@ -19,6 +19,21 @@ const Invite = () => {
    const [refCode, setRefCode] = useState("");
 
    useEffect(() => {
+      // Initialize the Telegram WebApp
+      if (window.Telegram) {
+         window.Telegram.WebApp.ready();
+      }
+   }, []);
+
+   const handleInviteClick = () => {
+      if (window.Telegram) {
+         window.Telegram.WebApp.openLink(`tg://msg_url?url=${refCode}`);
+      } else {
+         console.log("Telegram WebApp is not available");
+      }
+   };
+
+   useEffect(() => {
       const getReferrals = async () => {
          try {
             setLoading(true);
@@ -142,9 +157,12 @@ const Invite = () => {
          </div>
          <div className="invite-part h-full w-full flex items-end mb-[30px]">
             <div className="invite w-full px-6 flex gap-3 mt-4">
-               <div className="invite-a-friend w-full bg-secondary3 h-14 rounded-xl flex-1 flex items-center justify-center">
+               <button
+                  className="invite-a-friend w-full bg-secondary3 h-14 rounded-xl flex-1 flex items-center justify-center"
+                  onClick={handleInviteClick}
+               >
                   <h5 className="text-black text-[18px]">Invite a friend</h5>
-               </div>
+               </button>
                <button
                   className="copy-link w-14 h-14 bg-secondary3 rounded-xl flex items-center justify-center"
                   onClick={copyRefCode}
