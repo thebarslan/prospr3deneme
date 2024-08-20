@@ -48,7 +48,7 @@ export default function Home() {
       if (user) {
          setTelegramId(user.id);
          setTelegramUsername(user.username);
-         if (authState.authenticated && authState.user.id !== user.id) {
+         if (authState.user.id !== user.id) {
             logout();
          }
       } else {
