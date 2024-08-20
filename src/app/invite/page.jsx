@@ -19,8 +19,11 @@ const Invite = () => {
    const [refCode, setRefCode] = useState("");
 
    const handleInviteClick = () => {
-      if (window.Telegram) {
-         window.Telegram.WebApp.openTelegramLink(`tg://msg_url?url=${refCode}`);
+      const tele = window.Telegram?.WebApp;
+      if (tele) {
+         tele.share({
+            text: `Join Prospr using my referral link: ${refCode}`,
+         });
       } else {
          console.log("Telegram WebApp is not available");
       }
