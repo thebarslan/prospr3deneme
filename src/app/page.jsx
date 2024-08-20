@@ -146,21 +146,19 @@ export default function Home() {
          }
          console.log("c");
       };
-      const handleProfilePicture = async () => {
-         if (authState.authenticated) {
-            let url = await authState.user.profile_photo_url;
-            if (url === null) {
-               setHaveProfileImg(false);
-               return;
-            }
-            setHaveProfileImg(true);
-         }
-      };
-
-      handleGameSettings();
       handleProfilePicture();
+      handleGameSettings();
    }, [authState, onClaim, telegramId, telegramUsername]);
-
+   const handleProfilePicture = async () => {
+      if (authState.authenticated) {
+         let url = telegramPhotoUrl;
+         if (url === "") {
+            setHaveProfileImg(false);
+            return;
+         }
+         setHaveProfileImg(true);
+      }
+   };
    const logout = () => {
       onLogout();
       router.push("/");
