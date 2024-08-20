@@ -37,7 +37,7 @@ export default function Home() {
 
    const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
-   const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("");
+   const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("A");
    const prevTelegramId = useRef(null);
 
    useEffect(() => {
@@ -152,7 +152,7 @@ export default function Home() {
    const handleProfilePicture = async () => {
       if (authState.authenticated) {
          let url = telegramPhotoUrl;
-         if (url === "" || url === null) {
+         if (url === "A" || url === null) {
             setHaveProfileImg(false);
             return;
          }
