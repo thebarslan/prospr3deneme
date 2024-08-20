@@ -39,19 +39,34 @@ export default function Home() {
    const [telegramUsername, setTelegramUsername] = useState("");
 
    useEffect(() => {
+      setTelegramId("1123131");
+      setTelegramUsername("abcd");
       setLoading(true);
       const tele = window.Telegram.WebApp;
       tele.ready();
       tele.expand();
 
+      tele
+         .requestAuth(
+            "Please authorize my bot to access your profile so I can personalize your experience!"
+         )
+         .then(() => {
+            const user = tele.initDataUnsafe.user;
+            if (user) {
+               setTelegramId(user.id.toString());
+               setTelegramUsername(user.username);
+            } else {
+               // Handle gracefully if user still hasn't authorized
+               console.log("User has not authorized yet.");
+               // ... perhaps offer limited functionality or re-prompt later
+            }
+         })
+         .catch((error) => {
+            console.error("Authorization request failed:", error);
+            // ... handle authorization failure
+         });
       const user = tele.initDataUnsafe.user;
-      if (user) {
-         setTelegramId(user.id.toString());
-         setTelegramUsername(user.username);
-      } else {
-         setTelegramId("1123131");
-         setTelegramUsername("abcd");
-      }
+
       console.log(telegramId, telegramUsername);
       // 1123131 abcd
       const handleLogin = async () => {
