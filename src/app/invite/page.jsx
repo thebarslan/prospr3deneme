@@ -18,9 +18,16 @@ const Invite = () => {
    const [loading, setLoading] = useState(false);
    const [refCode, setRefCode] = useState("");
 
+   useEffect(() => {
+      // Initialize the Telegram WebApp
+      if (window.Telegram) {
+         window.Telegram.WebApp.ready();
+      }
+   }, []);
+
    const handleInviteClick = () => {
       if (window.Telegram) {
-         window.Telegram.WebApp.openLink(`tg://msg_url?url=${refCode}`);
+         window.Telegram.WebApp.openTelegramLink(`tg://msg_url?url=${refCode}`);
       } else {
          console.log("Telegram WebApp is not available");
       }
