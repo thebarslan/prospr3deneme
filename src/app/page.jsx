@@ -152,7 +152,7 @@ export default function Home() {
    const handleProfilePicture = async () => {
       if (authState.authenticated) {
          let url = telegramPhotoUrl;
-         if (url === "") {
+         if (url === "" || url === null) {
             setHaveProfileImg(false);
             return;
          }
@@ -179,6 +179,7 @@ export default function Home() {
             onClaim={() => setOnClaim(true)}
          />
          <button onClick={logout}>Logout</button>
+         <h5>{telegramPhotoUrl}</h5>
          <div className="profile-part flex-[4] w-full h-full relative flex items-center justify-center">
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
