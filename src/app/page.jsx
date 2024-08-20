@@ -52,6 +52,9 @@ export default function Home() {
          setTelegramId("1123131");
          setTelegramUsername("abcd");
       }
+      if (authState?.user.id.toString() !== telegramId) {
+         logout();
+      }
       console.log(telegramId, telegramUsername);
       // 1123131 abcd
       const handleLogin = async () => {
