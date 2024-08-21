@@ -50,152 +50,120 @@ export default function Home() {
    const [error, setError] = useState("");
 
    useEffect(() => {
-      setLoading(true);
-      const tele = window.Telegram.WebApp;
-      if (
-         tele.platform.toLowerCase() !== "android" &&
-         tele.platform.toLowerCase() !== "ios" &&
-         tele.platform.toLowerCase() !== "iphone" &&
-         tele.platform.toLowerCase() !== "ipad"
-      ) {
-         tele.close();
-      }
-      tele.ready();
-      tele.expand();
+      const fetchData = async () => {
+         setLoading(true);
+         const tele = window.Telegram.WebApp;
 
-      const user = tele.initDataUnsafe.user;
-      setTelegramUser(user);
-
-      var currentTelegramId = "";
-      var currentTelegramUsername = "";
-      var currentTelegramPhotoUrl = "";
-      if (user) {
-         currentTelegramId = user.id;
-         currentTelegramUsername = user.username;
-         currentTelegramPhotoUrl = user.photo_url;
-         setError("telegrama göre girdi");
-      } else if (!user) {
-         currentTelegramId = "12345678";
-         currentTelegramUsername = "deneme";
-         currentTelegramPhotoUrl = "";
-         setError("thebarslanı buldu");
-      } else {
-         setError("Hiç bir user giriş yapmadı.");
-      }
-
-      // const currentTelegramId = user ? user.id : "5577120511";
-      // const currentTelegramUsername = user ? user.username : "thebarslan";
-      // const currentTelegramPhotoUrl = user ? user.photo_url : "";
-
-      if (prevTelegramId.current !== currentTelegramId) {
-         prevTelegramId.current = currentTelegramId;
-         setTelegramId(currentTelegramId);
-         setTelegramUsername(currentTelegramUsername);
-         setTelegramPhotoUrl(currentTelegramPhotoUrl);
-         console.log(currentTelegramPhotoUrl);
-      }
-
-      const handleLogin = async () => {
-         try {
-            const result = await onLoginOrCreate(telegramId, telegramUsername);
-            if (result) console.log(result);
-            console.log("Logged In");
-         } catch (error) {
-            console.log(error);
+         if (
+            !["android", "ios", "iphone", "ipad"].includes(
+               tele.platform.toLowerCase()
+            )
+         ) {
+            tele.close();
          }
-      };
 
-      if (telegramId && telegramUsername) {
-         handleLogin();
-      }
+         tele.ready();
+         tele.expand();
 
-      // const handleBalance = async () => {
-      //    setLoading(true);
-      //    if (!authState.authenticated) {
-      //       setLoading(false);
-      //       return;
-      //    }
-      //    try {
-      //       const bal = await onGetBalance();
-      //       setBalance(bal.balance);
-      //       setLoading(false);
-      //    } catch (error) {
-      //       console.log(error);
-      //    }
-      // };
+         const user = tele.initDataUnsafe.user;
 
-      const handleBalance = async () => {
-         try {
-            const bal = await onGetBalance();
-            setBalance(bal.balance);
-         } catch (error) {
-            console.log(error);
-         } finally {
-            setLoading(false);
-         }
-      };
-      // if (authState.authenticated) {
-
-      //    handleBalance();
-      // }
-      handleBalance();
-      const checkIsAuthenticated = () => {
-         if (authState.authenticated) {
-            setError("OK");
+         if (user) {
+            setTelegramUser(user);
+            setTelegramId(user.id);
+            setTelegramUsername(user.username);
+            setTelegramPhotoUrl(user.photo_url);
+            setError("User authenticated via Telegram.");
          } else {
-            setError("NOT OK");
-         }
-      };
-      const handleGameSettings = async () => {
-         try {
-            const result = await onGetGameSettings();
-            setMaxFreePlayableGames(result.daily_free_games);
-            setMaxPaidPlayableGames(result.daily_paid_game_limit);
-            // Use setTimeout to introduce a 1-second delay
-            handleGamePlayed(
-               result.daily_free_games,
-               result.daily_paid_game_limit
-            );
-         } catch (error) {
-            console.log(error);
-         }
-      };
-      const handleGamePlayed = (freeLimit, paidLimit) => {
-         console.log("Free limit: " + freeLimit);
-         console.log("Paid limit: " + paidLimit);
-         var playedGames = getGameInfo();
-         console.log(playedGames[0]);
-         if (freePlayableGames <= 0) {
-            setCanPlayFree(false);
-            console.log("a");
-         } else if (paidPlayableGames <= 0) {
-            setCanPlay(false);
-            console.log("b");
+            setTelegramId("12345678");
+            setTelegramUsername("deneme");
+            setTelegramPhotoUrl("");
+            setError("Default user loaded.");
          }
 
-         console.log("c");
-      };
-
-      const getGameInfo = async () => {
-         try {
-            const result = await onGetGameInfo();
-            console.log(
-               "Free daily games left:" + result["free-daily_games_left"]
-            );
-            console.log(
-               "Daily paid games left:" + result["daily_paid_games_left"]
-            );
-            setFreePlayableGames(result["free-daily_games_left"]);
-            setPaidPlayableGames(result["daily_paid_games_left"]);
-
-            return result;
-         } catch (error) {
-            console.log(error);
+         if (prevTelegramId.current !== user?.id) {
+            prevTelegramId.current = user?.id || "12345678";
          }
+
+         const handleLogin = async () => {
+            try {
+               const result = await onLoginOrCreate(
+                  telegramId,
+                  telegramUsername
+               );
+               console.log("Logged In", result);
+            } catch (error) {
+               console.log(error);
+            }
+         };
+
+         if (telegramId && telegramUsername) {
+            await handleLogin();
+         }
+
+         const handleBalance = async () => {
+            try {
+               const bal = await onGetBalance();
+               setBalance(bal.balance);
+            } catch (error) {
+               console.log(error);
+            } finally {
+               setLoading(false);
+            }
+         };
+
+         await handleBalance();
+
+         const checkIsAuthenticated = () => {
+            if (authState.authenticated) {
+               setError("OK");
+            } else {
+               setError("NOT OK");
+            }
+         };
+
+         const handleGameSettings = async () => {
+            try {
+               const result = await onGetGameSettings();
+               setMaxFreePlayableGames(result.daily_free_games);
+               setMaxPaidPlayableGames(result.daily_paid_game_limit);
+               handleGamePlayed(
+                  result.daily_free_games,
+                  result.daily_paid_game_limit
+               );
+            } catch (error) {
+               console.log(error);
+            }
+         };
+
+         const handleGamePlayed = (freeLimit, paidLimit) => {
+            console.log("Free limit:", freeLimit);
+            console.log("Paid limit:", paidLimit);
+            if (freeLimit <= 0) {
+               setCanPlayFree(false);
+            }
+            if (paidLimit <= 0) {
+               setCanPlay(false);
+            }
+         };
+
+         const getGameInfo = async () => {
+            try {
+               const result = await onGetGameInfo();
+               setFreePlayableGames(result["free-daily_games_left"]);
+               setPaidPlayableGames(result["daily_paid_games_left"]);
+               return result;
+            } catch (error) {
+               console.log(error);
+            }
+         };
+
+         await getGameInfo();
+         handleProfilePicture();
+         await handleGameSettings();
+         checkIsAuthenticated();
       };
-      handleProfilePicture();
-      handleGameSettings();
-      checkIsAuthenticated();
+
+      fetchData();
    }, [
       authState,
       onClaim,
@@ -204,6 +172,7 @@ export default function Home() {
       telegramPhotoUrl,
       telegramUser,
    ]);
+
    const handleProfilePicture = () => {
       let url = telegramPhotoUrl;
       if (url === "" || url === null || url === undefined) {
