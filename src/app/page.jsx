@@ -80,6 +80,10 @@ export default function Home() {
             setError("Default user loaded.");
          }
 
+         if (telegramUser === null) {
+            logout();
+         }
+
          if (prevTelegramId.current !== user?.id) {
             prevTelegramId.current = user?.id || "12345678";
          }
