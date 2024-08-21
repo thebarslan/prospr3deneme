@@ -37,7 +37,7 @@ export default function Home() {
 
    const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
-   const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("A");
+   const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("");
    const prevTelegramId = useRef(null);
 
    useEffect(() => {
@@ -57,7 +57,7 @@ export default function Home() {
       const user = tele.initDataUnsafe.user;
       const currentTelegramId = user ? user.id : "1123131";
       const currentTelegramUsername = user ? user.username : "abcd";
-      const currentTelegramPhotoUrl = user ? user.photo_url : "A";
+      const currentTelegramPhotoUrl = user ? user.photo_url : "";
 
       if (prevTelegramId.current !== currentTelegramId) {
          prevTelegramId.current = currentTelegramId;
@@ -133,11 +133,7 @@ export default function Home() {
          );
          console.log("Free limit: " + freeLimit);
          console.log("Paid limit: " + paidLimit);
-         if (
-            authState.user.daily_games_played -
-               authState.user.daily_paid_games_played >=
-            freeLimit
-         ) {
+         if (authState.user.daily_paid_games_played > 0) {
             setCanPlayFree(false);
             console.log("a");
          }

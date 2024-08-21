@@ -40,13 +40,11 @@ const YoutubeIcon = () => {
       >
          <path
             fill-rule="evenodd"
-            clip-rule="evenodd"
             d="M39.164 10.3875C38.704 8.66682 37.3488 7.31126 35.6278 6.85128C32.5084 6.01562 19.9998 6.01562 19.9998 6.01562C19.9998 6.01562 7.49162 6.01562 4.37223 6.85128C2.65119 7.31126 1.29596 8.66682 0.835988 10.3875C0 13.5072 0 20.0154 0 20.0154C0 20.0154 0 26.5238 0.835988 29.6432C1.29596 31.3639 2.65119 32.7198 4.37223 33.1795C7.49162 34.0155 19.9998 34.0155 19.9998 34.0155C19.9998 34.0155 32.5084 34.0155 35.6278 33.1795C37.3488 32.7198 38.704 31.3639 39.164 29.6432C40 26.5238 40 20.0154 40 20.0154C40 20.0154 40 13.5072 39.164 10.3875Z"
             fill="#FF0000"
          />
          <path
             fill-rule="evenodd"
-            clip-rule="evenodd"
             d="M15.9994 26.0155L26.3911 20.0158L15.9994 14.0154V26.0155Z"
             fill="white"
          />
@@ -107,15 +105,15 @@ const Tasks = () => {
       };
 
       getTasks();
-   }, [tasks]);
+   }, [tasks, authState]);
 
    const [isLoading, setIsLoading] = useState(false);
 
-   const socialTasks = tasksDeneme.filter((task) => task.task.category === 1);
-   const engagementTasks = tasksDeneme.filter(
+   const socialTasks = tasksDeneme?.filter((task) => task.task.category === 1);
+   const engagementTasks = tasksDeneme?.filter(
       (task) => task.task.category === 3
    );
-   const bonusTasks = tasksDeneme.filter((task) => task.task.category === 2);
+   const bonusTasks = tasksDeneme?.filter((task) => task.task.category === 2);
 
    const handleTaskStart = async (taskId) => {
       setTasksDeneme((prevTasks) =>
@@ -162,7 +160,7 @@ const Tasks = () => {
             <div className="total-tasks-container h-full w-full overflow-y-auto scroll flex flex-col mb-[76px]">
                <div className="tasks-container w-full pl-3 pr-2 gap-4 flex flex-col mt-4 h-auto">
                   <h5 className="text-[20px]">Social Tasks</h5>
-                  {socialTasks.map((task) => {
+                  {socialTasks?.map((task) => {
                      return (
                         <div
                            className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
@@ -222,7 +220,7 @@ const Tasks = () => {
                <div className="tasks-container w-full pl-3 pr-2 gap-4 flex flex-col mt-6 h-auto">
                   <h5 className="text-[20px]">Engagement Tasks</h5>
 
-                  {engagementTasks.map((task) => {
+                  {engagementTasks?.map((task) => {
                      return (
                         <div
                            className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
@@ -282,7 +280,7 @@ const Tasks = () => {
                <div className="tasks-container w-full pl-3 pr-2 gap-4 flex flex-col mt-8 h-auto mb-4">
                   <h5 className="text-[20px]">Bonus Tasks</h5>
 
-                  {bonusTasks.map((task) => {
+                  {bonusTasks?.map((task) => {
                      return (
                         <div
                            className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
