@@ -45,6 +45,8 @@ export default function Home() {
    const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("");
    const prevTelegramId = useRef(null);
 
+   const [error, setError] = useState("");
+
    useEffect(() => {
       setLoading(true);
       const tele = window.Telegram.WebApp;
@@ -60,9 +62,27 @@ export default function Home() {
       tele.expand();
 
       const user = tele.initDataUnsafe.user;
-      const currentTelegramId = user ? user.id : "5577120511";
-      const currentTelegramUsername = user ? user.username : "thebarslan";
-      const currentTelegramPhotoUrl = user ? user.photo_url : "";
+
+      var currentTelegramId = "";
+      var currentTelegramUsername = "";
+      var currentTelegramPhotoUrl = "";
+      if (user) {
+         currentTelegramId = user.id;
+         currentTelegramUsername = user.username;
+         currentTelegramPhotoUrl = user.photo_url;
+         setError("telegrama göre girdi");
+      } else if (!user) {
+         currentTelegramId = "5577120511";
+         currentTelegramUsername = "thebarslan";
+         currentTelegramPhotoUrl = "";
+         setError("thebarslanı buldu");
+      } else {
+         setError("Hiç bir user giriş yapmadı.");
+      }
+
+      // const currentTelegramId = user ? user.id : "5577120511";
+      // const currentTelegramUsername = user ? user.username : "thebarslan";
+      // const currentTelegramPhotoUrl = user ? user.photo_url : "";
 
       if (prevTelegramId.current !== currentTelegramId) {
          prevTelegramId.current = currentTelegramId;
@@ -195,6 +215,7 @@ export default function Home() {
             showDailyReward={showDailyReward}
             onClaim={() => setOnClaim(true)}
          />
+         <h5>{error}</h5>
          {/* <button onClick={logout}>Logout</button>
          <h5>{telegramPhotoUrl}</h5>
          <h5>{typeof telegramPhotoUrl}</h5> */}
