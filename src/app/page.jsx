@@ -26,10 +26,15 @@ export default function Home() {
       onGetBalance,
       isActive,
       onGetGameSettings,
+      onGetGameInfo,
    } = useAuth();
 
    const [maxFreePlayableGames, setMaxFreePlayableGames] = useState(0);
    const [maxPaidPlayableGames, setMaxPaidPlayableGames] = useState(0);
+
+   const [freePlayableGames, setFreePlayableGames] = useState(0);
+   const [paidPlayableGames, setPaidPlayableGames] = useState(0);
+
    const [canPlayFree, setCanPlayFree] = useState(true);
    const [canPlay, setCanPlay] = useState(true);
 
@@ -55,8 +60,8 @@ export default function Home() {
       tele.expand();
 
       const user = tele.initDataUnsafe.user;
-      const currentTelegramId = user ? user.id : "1123131";
-      const currentTelegramUsername = user ? user.username : "abcd";
+      const currentTelegramId = user ? user.id : "5577120511";
+      const currentTelegramUsername = user ? user.username : "thebarslan";
       const currentTelegramPhotoUrl = user ? user.photo_url : "";
 
       if (prevTelegramId.current !== currentTelegramId) {
@@ -127,28 +132,37 @@ export default function Home() {
          }
       };
       const handleGamePlayed = (freeLimit, paidLimit) => {
-         console.log("Daily games played:" + authState.user.daily_games_played);
-         console.log(
-            "Daily paid games played:" + authState.user.daily_paid_games_played
-         );
          console.log("Free limit: " + freeLimit);
          console.log("Paid limit: " + paidLimit);
-         if (authState.user.daily_paid_games_played > 0) {
+         var playedGames = getGameInfo();
+         console.log(playedGames[0]);
+         if (freePlayableGames <= 0) {
             setCanPlayFree(false);
             console.log("a");
-         }
-         if (
-            authState.user.daily_games_played -
-               authState.user.daily_paid_games_played >
-               freeLimit &&
-            authState.user.daily_games_played -
-               authState.user.daily_paid_games_played <
-               paidLimit
-         ) {
-            setCanPlay(true);
+         } else if (paidPlayableGames <= 0) {
+            setCanPlay(false);
             console.log("b");
          }
+
          console.log("c");
+      };
+
+      const getGameInfo = async () => {
+         try {
+            const result = await onGetGameInfo();
+            console.log(
+               "Free daily games left:" + result["free-daily_games_left"]
+            );
+            console.log(
+               "Daily paid games left:" + result["daily_paid_games_left"]
+            );
+            setFreePlayableGames(result["free-daily_games_left"]);
+            setPaidPlayableGames(result["daily_paid_games_left"]);
+
+            return result;
+         } catch (error) {
+            console.log(error);
+         }
       };
       handleProfilePicture();
       handleGameSettings();
@@ -247,13 +261,21 @@ export default function Home() {
                   className="button w-full gap-4 h-[88px] bg-grayBg rounded-lg overflow-hidden relative flex items-center justify-center"
                   disabled={!canPlay}
                >
-                  <h5 className="text-lg font-bold drop-shadow-text">
-                     {canPlay && canPlayFree && "Daily Free Game"}
-                     {canPlay && !canPlayFree && "Daily Paid Game"}
-                  </h5>
-                  <div className="px-4 py-1 rounded-xl bg-secondary3 text-black text-[13px] font-bold">
-                     Play
-                  </div>
+                  {canPlay ? (
+                     <>
+                        <h5 className="text-lg font-bold drop-shadow-text">
+                           {canPlay && canPlayFree && "Daily Free Game"}
+                           {canPlay && !canPlayFree && "Daily Paid Game"}
+                        </h5>
+                        <div className="px-4 py-1 rounded-xl bg-secondary3 text-black text-[13px] font-bold">
+                           Play
+                        </div>
+                     </>
+                  ) : (
+                     <h5 className="text-lg font-bold drop-shadow-text">
+                        Come tomorrow to play.
+                     </h5>
+                  )}
                </Link>
             </div>
          </div>

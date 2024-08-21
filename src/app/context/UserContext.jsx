@@ -116,6 +116,16 @@ export const AuthProvider = ({ children }) => {
       // Check for authentication data immediately on component mount
    }, []); // Empty dependency array ensures this runs only once
 
+   const getGameInfo = async () => {
+      try {
+         const response = await apiClient.get("/users/users/game_status/", {});
+         const data = response.data;
+         return data;
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    const getGameSettings = async () => {
       try {
          const response = await apiClient.get("/game/settings/current/", {});
@@ -315,6 +325,7 @@ export const AuthProvider = ({ children }) => {
       onGameEndSendScore: gameEndSendScore,
       onStartGame: gameStart,
       onGetGameSettings: getGameSettings,
+      onGetGameInfo: getGameInfo,
    };
 
    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
