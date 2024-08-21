@@ -136,7 +136,13 @@ export default function Home() {
       //    handleBalance();
       // }
       handleBalance();
-
+      const checkIsAuthenticated = () => {
+         if (authState.authenticated) {
+            setError("OK");
+         } else {
+            setError("NOT OK");
+         }
+      };
       const handleGameSettings = async () => {
          try {
             const result = await onGetGameSettings();
@@ -186,6 +192,7 @@ export default function Home() {
       };
       handleProfilePicture();
       handleGameSettings();
+      checkIsAuthenticated();
    }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
    const handleProfilePicture = () => {
       let url = telegramPhotoUrl;
