@@ -222,7 +222,7 @@ export default function Home() {
             showDailyReward={showDailyReward}
             onClaim={() => setOnClaim(true)}
          />
-         <h5>{error}</h5>
+         <h5>{authState.token}</h5>
          {/* <button onClick={logout}>Logout</button>
          <h5>{telegramPhotoUrl}</h5>
          <h5>{typeof telegramPhotoUrl}</h5> */}
