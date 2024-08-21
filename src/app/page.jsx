@@ -161,6 +161,7 @@ export default function Home() {
       telegramUsername,
       telegramPhotoUrl,
       telegramUser,
+      loading,
    ]);
 
    const handleProfilePicture = () => {
