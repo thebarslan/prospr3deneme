@@ -65,7 +65,7 @@ const Invite = () => {
          return;
       }
       setSliderWidth((verifiedInvites / totalInvites) * 100);
-   }, []);
+   }, [verifiedInvites, totalInvites]);
    if (loading) {
       return (
          <div className="w-full h-full bg-black">
@@ -138,13 +138,14 @@ const Invite = () => {
                      <div
                         className="absolute h-full left-0 top-0 bg-primary1 rounded-full flex items-center px-4 gap-2"
                         style={{ width: `${sliderWidth}%` }}
-                     >
-                        <FaUserFriends />
-                        <h5 className="text-[14px] font-medium">
-                           Joined: {totalInvites}
-                        </h5>
-                     </div>
+                     ></div>
                   )}
+                  <div className="inside absolute flex gap-2 items-center w-full h-full pl-4">
+                     <FaUserFriends />
+                     <h5 className="text-[14px] font-medium ">
+                        Joined: {totalInvites}
+                     </h5>
+                  </div>
                </div>
                <div className="verified px-2 mt-2">
                   <h5 className="text-[14px] font-medium">

@@ -77,8 +77,8 @@ export default function Home() {
             setError("User authenticated via Telegram.");
          } else {
             // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
-            setTelegramId("12345678");
-            setTelegramUsername("deneme");
+            setTelegramId("5577120511");
+            setTelegramUsername("thebarslan");
             setTelegramPhotoUrl("");
             setError("Default user loaded.");
          }
