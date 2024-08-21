@@ -84,9 +84,9 @@ export default function Home() {
          }
 
          // Kullanıcı id'si değiştiğinde logout işlemi
-         if (authState.user?.id && authState.user.id !== user?.id) {
-            logout();
-         }
+         //    if (authState.user?.id && authState.user.id !== user?.id) {
+         //       logout();
+         //    }
 
          // Asenkron işlemleri sırayla gerçekleştirmek
          const handleLogin = async () => {
