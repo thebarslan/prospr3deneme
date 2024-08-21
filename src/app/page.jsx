@@ -43,6 +43,8 @@ export default function Home() {
    const [telegramId, setTelegramId] = useState();
    const [telegramUsername, setTelegramUsername] = useState("");
    const [telegramPhotoUrl, setTelegramPhotoUrl] = useState("");
+
+   const [telegramUser, setTelegramUser] = useState();
    const prevTelegramId = useRef(null);
 
    const [error, setError] = useState("");
@@ -62,6 +64,7 @@ export default function Home() {
       tele.expand();
 
       const user = tele.initDataUnsafe.user;
+      setTelegramUser(user);
 
       var currentTelegramId = "";
       var currentTelegramUsername = "";
@@ -193,7 +196,14 @@ export default function Home() {
       handleProfilePicture();
       handleGameSettings();
       checkIsAuthenticated();
-   }, [authState, onClaim, telegramId, telegramUsername, telegramPhotoUrl]);
+   }, [
+      authState,
+      onClaim,
+      telegramId,
+      telegramUsername,
+      telegramPhotoUrl,
+      telegramUser,
+   ]);
    const handleProfilePicture = () => {
       let url = telegramPhotoUrl;
       if (url === "" || url === null || url === undefined) {
