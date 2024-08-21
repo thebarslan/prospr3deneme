@@ -161,8 +161,11 @@ export default function Home() {
       telegramUsername,
       telegramPhotoUrl,
       telegramUser,
-      loading,
    ]);
+
+   useEffect(() => {
+      logout();
+   }, [loading]);
 
    const handleProfilePicture = () => {
       let url = telegramPhotoUrl;
