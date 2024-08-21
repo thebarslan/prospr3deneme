@@ -191,6 +191,10 @@ export default function Home() {
             showDailyReward={showDailyReward}
             onClaim={() => setOnClaim(true)}
          />
+         <h5 className="hidden">{authState.token}</h5>
+         <button className="hidden" onClick={logout}>
+            Logout
+         </button>
          {/* <button onClick={logout}>Logout</button>
          <h5>{telegramPhotoUrl}</h5>
          <h5>{typeof telegramPhotoUrl}</h5> */}
