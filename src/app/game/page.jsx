@@ -19,10 +19,16 @@ const CoinIconPressable = ({
    secondImage,
    thirdImage,
 }) => {
-   const handleClick = () => {
-      gainPoints(type); // Call gainPoints first if needed
-      onRemove(id);
+   const handleTouchStart = (event) => {
+      event.preventDefault(); // Prevent default touch behavior
+      const touches = event.touches;
+
+      for (let i = 0; i < touches.length; i++) {
+         gainPoints(type); // Gain points for each touch
+         onRemove(id); // Remove the icon
+      }
    };
+
    const { authState, onGetGameSettings } = useAuth();
    const [top, setTop] = useState(0);
    const divRef = useRef(null);
@@ -48,7 +54,7 @@ const CoinIconPressable = ({
          ref={divRef}
          className={`absolute cursor-pointer p-2`}
          style={{ left: `${left}%`, top: `${top}px` }}
-         onClick={handleClick}
+         onTouchStart={handleTouchStart}
       >
          {type === 0 && <CoinIconImage size={48} url={defaultImage} />}
          {type === 1 && (
