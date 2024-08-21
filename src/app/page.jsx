@@ -80,7 +80,7 @@ export default function Home() {
             setError("Default user loaded.");
          }
 
-         if (telegramUser === null) {
+         if (authState.user.id !== user.id) {
             logout();
          }
 
