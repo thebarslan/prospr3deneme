@@ -72,8 +72,8 @@ export default function Home() {
          currentTelegramPhotoUrl = user.photo_url;
          setError("telegrama göre girdi");
       } else if (!user) {
-         currentTelegramId = "5577120511";
-         currentTelegramUsername = "thebarslan";
+         currentTelegramId = "12345678";
+         currentTelegramUsername = "deneme";
          currentTelegramPhotoUrl = "";
          setError("thebarslanı buldu");
       } else {
@@ -223,6 +223,7 @@ export default function Home() {
             onClaim={() => setOnClaim(true)}
          />
          <h5>{authState.token}</h5>
+         <button onClick={logout}>Logout</button>
          {/* <button onClick={logout}>Logout</button>
          <h5>{telegramPhotoUrl}</h5>
          <h5>{typeof telegramPhotoUrl}</h5> */}

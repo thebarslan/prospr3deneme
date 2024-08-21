@@ -247,7 +247,7 @@ export const AuthProvider = ({ children }) => {
    const getReferralsCode = async () => {
       try {
          const response = await apiClient.get(
-            "/referrals/referrals/my_referral_link/",
+            "/users/users/my_referral_link/",
             {}
          );
          const data = response.data;
