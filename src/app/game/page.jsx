@@ -46,7 +46,7 @@ const CoinIconPressable = ({
    return (
       <div
          ref={divRef}
-         className={`absolute cursor-pointer`}
+         className={`absolute cursor-pointer p-2`}
          style={{ left: `${left}%`, top: `${top}px` }}
          onClick={handleClick}
       >
