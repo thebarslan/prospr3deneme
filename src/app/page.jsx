@@ -52,20 +52,22 @@ export default function Home() {
    useEffect(() => {
       const fetchData = async () => {
          setLoading(true);
+
          const tele = window.Telegram.WebApp;
 
+         // Platform kontrolü ve Telegram uygulamasının başlatılması
          if (
             !["android", "ios", "iphone", "ipad"].includes(
                tele.platform.toLowerCase()
             )
          ) {
             tele.close();
+         } else {
+            tele.ready();
+            tele.expand();
          }
 
-         tele.ready();
-         tele.expand();
-
-         const user = tele.initDataUnsafe.user;
+         const user = tele.initDataUnsafe?.user;
 
          if (user) {
             setTelegramUser(user);
@@ -74,20 +76,19 @@ export default function Home() {
             setTelegramPhotoUrl(user.photo_url);
             setError("User authenticated via Telegram.");
          } else {
+            // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
             setTelegramId("12345678");
             setTelegramUsername("deneme");
             setTelegramPhotoUrl("");
             setError("Default user loaded.");
          }
 
-         if (authState.user.id !== user.id) {
+         // Kullanıcı id'si değiştiğinde logout işlemi
+         if (authState.user?.id && authState.user.id !== user?.id) {
             logout();
          }
 
-         if (prevTelegramId.current !== user?.id) {
-            prevTelegramId.current = user?.id || "12345678";
-         }
-
+         // Asenkron işlemleri sırayla gerçekleştirmek
          const handleLogin = async () => {
             try {
                const result = await onLoginOrCreate(
@@ -100,28 +101,12 @@ export default function Home() {
             }
          };
 
-         if (telegramId && telegramUsername) {
-            await handleLogin();
-         }
-
          const handleBalance = async () => {
             try {
                const bal = await onGetBalance();
                setBalance(bal.balance);
             } catch (error) {
                console.log(error);
-            } finally {
-               setLoading(false);
-            }
-         };
-
-         await handleBalance();
-
-         const checkIsAuthenticated = () => {
-            if (authState.authenticated) {
-               setError("OK");
-            } else {
-               setError("NOT OK");
             }
          };
 
@@ -139,32 +124,33 @@ export default function Home() {
             }
          };
 
-         const handleGamePlayed = (freeLimit, paidLimit) => {
-            console.log("Free limit:", freeLimit);
-            console.log("Paid limit:", paidLimit);
-            if (freeLimit <= 0) {
-               setCanPlayFree(false);
-            }
-            if (paidLimit <= 0) {
-               setCanPlay(false);
-            }
-         };
-
          const getGameInfo = async () => {
             try {
                const result = await onGetGameInfo();
                setFreePlayableGames(result["free-daily_games_left"]);
                setPaidPlayableGames(result["daily_paid_games_left"]);
-               return result;
             } catch (error) {
                console.log(error);
             }
          };
 
-         await getGameInfo();
-         handleProfilePicture();
-         await handleGameSettings();
-         checkIsAuthenticated();
+         // Oyun oynama sınırlarını kontrol etme
+         const handleGamePlayed = (freeLimit, paidLimit) => {
+            setCanPlayFree(freeLimit > 0);
+            setCanPlay(paidLimit > 0);
+         };
+
+         // Asenkron işlemleri sırayla çalıştır
+         if (telegramId && telegramUsername) {
+            await handleLogin();
+            await handleBalance();
+            await getGameInfo();
+            await handleGameSettings();
+         }
+
+         // Son olarak kullanıcı kimlik doğrulamasını kontrol et
+         setError(authState.authenticated ? "OK" : "NOT OK");
+         setLoading(false);
       };
 
       fetchData();
