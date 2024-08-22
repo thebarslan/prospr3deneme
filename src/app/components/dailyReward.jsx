@@ -57,7 +57,11 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
    }, []);
    useEffect(() => {
       const getRewardsTime = () => {
-         if (rewardsInfo && rewardsInfo.length > 0) {
+         if (
+            rewardsInfo &&
+            rewardsInfo.length > 0 &&
+            firstUnclaimedReward !== null
+         ) {
             const lastRewardTime =
                rewardsInfo[firstUnclaimedReward?.day - 2].claimed_at;
             const currentTime = new Date(); // Get the current time

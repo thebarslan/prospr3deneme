@@ -53,14 +53,14 @@ export default function Home() {
       const fetchData = async () => {
          setLoading(true);
 
-         const tele = window.Telegram.WebApp;
+         const tele = window.Telegram?.WebApp;
 
          // Platform kontrolü ve Telegram uygulamasının başlatılması
 
-         tele.ready();
-         tele.expand();
+         tele?.ready();
+         tele?.expand();
 
-         const user = tele.initDataUnsafe?.user;
+         const user = tele?.initDataUnsafe?.user;
 
          if (user) {
             setTelegramUser(user);
