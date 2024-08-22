@@ -63,7 +63,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
             firstUnclaimedReward !== null
          ) {
             const lastRewardTime =
-               rewardsInfo[firstUnclaimedReward?.day - 2].claimed_at;
+               rewardsInfo[firstUnclaimedReward?.day - 2]?.claimed_at;
             const currentTime = new Date(); // Get the current time
 
             // Calculate the time difference in milliseconds
