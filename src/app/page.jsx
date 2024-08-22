@@ -56,16 +56,9 @@ export default function Home() {
          const tele = window.Telegram.WebApp;
 
          // Platform kontrolü ve Telegram uygulamasının başlatılması
-         if (
-            !["android", "ios", "iphone", "ipad"].includes(
-               tele.platform.toLowerCase()
-            )
-         ) {
-            tele.close();
-         } else {
-            tele.ready();
-            tele.expand();
-         }
+
+         tele.ready();
+         tele.expand();
 
          const user = tele.initDataUnsafe?.user;
 

@@ -110,3 +110,25 @@
 .daily-reward-container {
    box-shadow: 0px -6px 4px 0px #3a0088;
 }
+
+@keyframes particle-move {
+   0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+   }
+   100% {
+      transform: translate(var(--x), var(--y)) scale(0.5);
+      opacity: 0;
+   }
+}
+
+.particle {
+   position: absolute;
+   width: 10px;
+   height: 10px;
+   background-color: #ffd700; /* Gold color for particles */
+   border-radius: 50%;
+   opacity: 0;
+   animation: particle-move 0.5s ease-out forwards;
+   pointer-events: none;
+}
