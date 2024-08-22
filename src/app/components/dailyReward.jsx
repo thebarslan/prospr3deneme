@@ -59,7 +59,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
       const getRewardsTime = () => {
          if (rewardsInfo && rewardsInfo.length > 0) {
             const lastRewardTime =
-               rewardsInfo[rewardsInfo.length - 1].claimed_at;
+               rewardsInfo[firstUnclaimedReward?.day - 2].claimed_at;
             const currentTime = new Date(); // Get the current time
 
             // Calculate the time difference in milliseconds
@@ -79,7 +79,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
       };
 
       getRewardsTime();
-   }, [rewardsInfo]);
+   }, [rewardsInfo, firstUnclaimedReward]);
 
    const getDailyReward = async () => {
       try {
