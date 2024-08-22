@@ -160,13 +160,13 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                                  Claim your daily reward.
                               </h6>
                            </div>
-                           <div className="reward-outer-container w-full h-full  mt-1 flex items-center flex-1 ">
+                           <div className="reward-outer-container w-full h-full  mt-[2px] flex items-center flex-1 ">
                               <div className="rewards-container w-full px-6 grid grid-cols-4 grid-rows-3 flex-1 gap-3 mt-0">
                                  {/* Added gap for spacing */}
                                  {rewards.map((item) => (
                                     <div
                                        key={item.day} // Key is correctly placed
-                                       className={`reward w-full aspect-[12/13] rounded-xl flex items-center justify-center flex-col gap-1 ${
+                                       className={`reward w-full aspect-[14/15] rounded-xl flex items-center justify-center flex-col gap-[2px] ${
                                           !item.claimed
                                              ? "bg-black"
                                              : "bg-[#191919]"
