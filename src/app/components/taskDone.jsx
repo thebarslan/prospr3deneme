@@ -8,11 +8,24 @@ import Image from "next/image";
 import { useAuth } from "../context/UserContext";
 import Loader from "./loader";
 import CoinIcon from "./coinIcon";
+import Link from "next/link";
 
 const TaskDone = ({ onClose, showTaskDone, task, onTaskDone }) => {
    const { onGetTasks, onFinishTask, authState } = useAuth();
    const [loading, setLoading] = useState(false);
    const [user_input, setUserInput] = useState("");
+   const [error, setError] = useState("");
+
+   useEffect(() => {
+      setError("");
+   }, [showTaskDone]);
+
+   const isValidEmail = (email) => {
+      // Regular expression to check if the email format is valid
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+   };
+
    const finishTask = async (taskId) => {
       try {
          await onFinishTask(taskId, user_input);
@@ -22,6 +35,13 @@ const TaskDone = ({ onClose, showTaskDone, task, onTaskDone }) => {
    };
    const handleFinishTask = () => {
       var taskId = task.id;
+      if (task.task.requires_user_input && task.task.name.includes("Email")) {
+         if (!isValidEmail(user_input)) {
+            setError("You have to write the email address correctly.");
+            return;
+         }
+      }
+      setError("");
       setLoading(true);
       finishTask(taskId);
       setTimeout(() => {
@@ -99,20 +119,50 @@ const TaskDone = ({ onClose, showTaskDone, task, onTaskDone }) => {
                                  </>
                               )}
 
-                              <div className="claim-button-container  flex items-center justify-center mt-6 px-6 ">
-                                 <button
-                                    className="w-full h-[48px] bg-secondary3 rounded-xl"
-                                    onClick={handleFinishTask}
-                                    disabled={loading}
-                                 >
-                                    {loading ? (
-                                       <>
-                                          <Loader width="30px" color="white" />
-                                       </>
-                                    ) : (
-                                       "Do the task"
-                                    )}
-                                 </button>
+                              <div className="claim-button-container  flex items-center justify-center mt-6 px-6 mb-2 ">
+                                 {task.task.link === null ? (
+                                    <button
+                                       className="w-full h-[48px] bg-secondary3 rounded-xl flex items-center justify-center"
+                                       onClick={handleFinishTask}
+                                       target="_blank"
+                                       disabled={loading}
+                                    >
+                                       {loading ? (
+                                          <>
+                                             <Loader
+                                                width="30px"
+                                                color="white"
+                                             />
+                                          </>
+                                       ) : (
+                                          "Do the task"
+                                       )}
+                                    </button>
+                                 ) : (
+                                    <Link
+                                       className="w-full h-[48px] bg-secondary3 rounded-xl flex items-center justify-center"
+                                       onClick={handleFinishTask}
+                                       target="_blank"
+                                       disabled={loading}
+                                       href={`${task.task.link}`}
+                                    >
+                                       {loading ? (
+                                          <>
+                                             <Loader
+                                                width="30px"
+                                                color="white"
+                                             />
+                                          </>
+                                       ) : (
+                                          "Do the task"
+                                       )}
+                                    </Link>
+                                 )}
+                              </div>
+                              <div className="error-text h-6 w-full flex mt-2 mb-5 text-center items-start justify-center ">
+                                 <h5 className="text-[13px] text-secondary3">
+                                    {error}
+                                 </h5>
                               </div>
                            </div>
                         </div>
