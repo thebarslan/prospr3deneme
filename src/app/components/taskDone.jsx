@@ -57,7 +57,7 @@ const TaskDone = ({ onClose, showTaskDone, task, onTaskDone }) => {
             {showTaskDone && (
                <motion.div
                   key="daily-reward"
-                  className="w-full h-[70%] absolute -bottom-6 left-0  z-[500]"
+                  className="w-full h-[70%] min-h-[490px] absolute -bottom-6 left-0  z-[500]"
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   exit={{ y: "100%" }}
