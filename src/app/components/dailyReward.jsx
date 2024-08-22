@@ -26,13 +26,14 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
    const getDailyRewards = async () => {
       try {
          const tempRewards = await onGetDailyRewards();
+         setRewards(tempRewards);
          for (const item of tempRewards) {
             if (item.claimed === false) {
                console.log("First Unclaimed Reward :" + item.day);
                setFirstUnclaimedReward(item);
+               return;
             }
          }
-         setRewards(tempRewards);
       } catch (error) {
          console.log(error);
       }
@@ -134,7 +135,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                               className="absolute -top-10 right-0"
                               alt="hex"
                            />
-                           <div className="top px-6 flex w-full mt-[80px] items-center">
+                           <div className="top px-6 flex w-full mt-[64px] items-center">
                               <div className="empty w-[40px] h-auto"></div>
                               <div className="title w-full h-auto flex-1 justify-center flex drop-shadow-text">
                                  <h5 className="text-xl font-bold">
@@ -155,13 +156,13 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                                  Claim your daily reward.
                               </h6>
                            </div>
-                           <div className="reward-outer-container w-full h-full  mt-2 flex items-center flex-1 ">
+                           <div className="reward-outer-container w-full h-full  mt-1 flex items-center flex-1 ">
                               <div className="rewards-container w-full px-6 grid grid-cols-4 grid-rows-3 flex-1 gap-3 mt-0">
                                  {/* Added gap for spacing */}
                                  {rewards.map((item) => (
                                     <div
                                        key={item.day} // Key is correctly placed
-                                       className={`reward w-full aspect-[8/9] rounded-xl flex items-center justify-center flex-col gap-1 ${
+                                       className={`reward w-full aspect-[12/13] rounded-xl flex items-center justify-center flex-col gap-1 ${
                                           !item.claimed
                                              ? "bg-black"
                                              : "bg-[#191919]"
@@ -187,7 +188,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                                  ))}
                               </div>
                            </div>
-                           <div className="claim-button-container mb-8 flex items-center justify-center mt-0">
+                           <div className="claim-button-container mb-6 flex items-center justify-center mt-0">
                               <button
                                  className={`w-[60%] rounded-xl bg-secondary3 h-12 text-black ${
                                     !isClaimable && "bg-[#3A0088] text-white"

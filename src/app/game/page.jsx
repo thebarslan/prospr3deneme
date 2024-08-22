@@ -19,19 +19,32 @@ const CoinIconPressable = ({
    secondImage,
    thirdImage,
 }) => {
-   const handleTouchStart = (event) => {
-      event.preventDefault(); // Prevent default touch behavior
-      const touches = event.touches;
+   const handleInteraction = (event) => {
+      event.preventDefault();
 
-      for (let i = 0; i < touches.length; i++) {
-         gainPoints(type); // Gain points for each touch
-         onRemove(id); // Remove the icon
-      }
+      // Get the icon's position
+      const { x, y } = divRef.current.getBoundingClientRect();
+
+      // Gain points and remove the coin icon immediately
+      gainPoints(type);
+      onRemove(id);
+
+      // Trigger the explosion
+      // onExplosionComplete({ x, y });
    };
 
    const { authState, onGetGameSettings } = useAuth();
    const [top, setTop] = useState(0);
    const divRef = useRef(null);
+
+   const [isMobile, setIsMobile] = useState(false);
+
+   useEffect(() => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android|iPad|iPhone|iPod/i.test(userAgent)) {
+         setIsMobile(true);
+      }
+   }, []);
 
    useEffect(() => {
       const moveInterval = setInterval(() => {
@@ -54,7 +67,8 @@ const CoinIconPressable = ({
          ref={divRef}
          className={`absolute cursor-pointer p-2`}
          style={{ left: `${left}%`, top: `${top}px` }}
-         onTouchStart={handleTouchStart}
+         onClick={!isMobile ? handleInteraction : null}
+         onTouchStart={isMobile ? handleInteraction : null}
       >
          {type === 0 && <CoinIconImage size={48} url={defaultImage} />}
          {type === 1 && (

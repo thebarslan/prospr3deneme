@@ -163,7 +163,7 @@ const Tasks = () => {
                   {socialTasks?.map((task) => {
                      return (
                         <div
-                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
+                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-5"
                            key={task.id}
                         >
                            <div className="left flex gap-3 h-full items-center">
@@ -223,7 +223,7 @@ const Tasks = () => {
                   {engagementTasks?.map((task) => {
                      return (
                         <div
-                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
+                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-5"
                            key={task.id}
                         >
                            <div className="left flex gap-3 h-full items-center">
@@ -283,7 +283,7 @@ const Tasks = () => {
                   {bonusTasks?.map((task) => {
                      return (
                         <div
-                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-6"
+                           className="task w-full h-[72px] bg-grayBg rounded-2xl flex justify-between px-5"
                            key={task.id}
                         >
                            <div className="left flex gap-3 h-full items-center">

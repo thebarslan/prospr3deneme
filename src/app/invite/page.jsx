@@ -87,7 +87,7 @@ const Invite = () => {
             <h5 className="text-[22px]">Invite your friends</h5>
             <h5 className="text-[16px] font-medium -mt-1">Earn more coins</h5>
          </div>
-         <div className="invite-infos w-full flex flex-col gap-5 px-6 mt-5">
+         <div className="invite-infos w-full flex flex-col gap-2 px-6 mt-3">
             <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
                <div className="invite-text w-full text-center flex flex-col">
                   <h5 className="text-[15px]">Invite Bonus</h5>
@@ -127,12 +127,12 @@ const Invite = () => {
                </div>
             </div>
          </div>
-         <div className="my-invites px-6 w-full flex flex-col mt-2">
+         <div className="my-invites px-6 w-full flex flex-col mt-1">
             <div className="text w-full text-center">
                <h5>My Invites</h5>
             </div>
 
-            <div className="my-invites-inside invite-bonus w-full h-[110px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
+            <div className="my-invites-inside invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
                <div className="slider w-full h-8 rounded-full relative bg-black overflow-hidden">
                   {verifiedInvites !== 0 && (
                      <div
