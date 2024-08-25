@@ -151,6 +151,9 @@ export default function Home() {
    ]);
 
    useEffect(() => {
+      handleProfilePicture();
+   }, [telegramPhotoUrl]);
+   useEffect(() => {
       logout();
    }, []);
 
