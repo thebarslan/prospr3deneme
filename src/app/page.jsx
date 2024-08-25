@@ -151,21 +151,9 @@ export default function Home() {
    ]);
 
    useEffect(() => {
-      handleProfilePicture();
-   }, [telegramPhotoUrl]);
-   useEffect(() => {
       logout();
    }, []);
 
-   const handleProfilePicture = () => {
-      let url = telegramPhotoUrl;
-      if (url === "" || url === null || url === undefined) {
-         setHaveProfileImg(false);
-         return;
-      }
-
-      setHaveProfileImg(true);
-   };
    const logout = () => {
       onLogout();
       router.push("/");
@@ -197,7 +185,7 @@ export default function Home() {
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
-                  {haveProfileImg ? (
+                  {telegramPhotoUrl !== "" ? (
                      <Image
                         src={telegramPhotoUrl}
                         width={96}
