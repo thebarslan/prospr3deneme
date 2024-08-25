@@ -76,12 +76,6 @@ export default function Home() {
             setError("Default user loaded.");
          }
 
-         // Kullanıcı id'si değiştiğinde logout işlemi
-         //    if (authState.user?.id && authState.user.id !== user?.id) {
-         //       logout();
-         //    }
-
-         // Asenkron işlemleri sırayla gerçekleştirmek
          const handleLogin = async () => {
             try {
                const result = await onLoginOrCreate(

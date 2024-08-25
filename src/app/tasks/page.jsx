@@ -92,6 +92,7 @@ const Tasks = () => {
    const [tasksDeneme, setTasksDeneme] = useState([]);
    const [loading, setLoading] = useState(false);
    const [tasks, setTasks] = useState(false);
+
    useEffect(() => {
       const getTasks = async () => {
          try {

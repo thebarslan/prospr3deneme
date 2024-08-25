@@ -21,7 +21,7 @@ const Invite = () => {
    const handleInviteClick = () => {
       const tele = window.Telegram?.WebApp;
       if (tele) {
-         tele.openLink(
+         tele.openTelegramLink(
             `https://t.me/share/url?url=${encodeURIComponent(
                refCode
             )}&text=Join%20using%20my%20referral%20code`
