@@ -183,23 +183,26 @@ export default function Home() {
          <h5>{telegramPhotoUrl}</h5>
          <h5>{typeof telegramPhotoUrl}</h5> */}
          <div className="profile-part flex-[4] w-full h-full relative flex items-center justify-center">
-            <h5>{authState.user.image}</h5>
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
-                  {authState.user.image !== "" ? (
-                     <Image
-                        src={telegramPhotoUrl}
-                        width={96}
-                        height={96}
-                        alt="profile"
-                     />
-                  ) : (
-                     <div className="profile-icon-div w-24 h-24 rounded-full bg-black flex items-center justify-center">
-                        <h5 className="text-[32px] font-extrabold text-white uppercase">
-                           {telegramUsername.split("")[0]}
-                        </h5>
-                     </div>
+                  {authState?.user && (
+                     <>
+                        {authState?.user?.image !== "" ? (
+                           <Image
+                              src={authState.user.image}
+                              width={96}
+                              height={96}
+                              alt="profile"
+                           />
+                        ) : (
+                           <div className="profile-icon-div w-24 h-24 rounded-full bg-black flex items-center justify-center">
+                              <h5 className="text-[32px] font-extrabold text-white uppercase">
+                                 {telegramUsername.split("")[0]}
+                              </h5>
+                           </div>
+                        )}
+                     </>
                   )}
                </div>
                <div className="profile-info-texts h-auto flex flex-col">

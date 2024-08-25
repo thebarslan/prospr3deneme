@@ -285,6 +285,7 @@ export const AuthProvider = ({ children }) => {
                image: data.profile_photo_url,
             },
          });
+         console.log("ERRRRRRORRRR", data.profile_photo_url);
       } catch (error) {
          console.error(error);
       }
