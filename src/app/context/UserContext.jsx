@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
          username: "",
          id: null,
          balance: 0,
+         image: "",
       },
    });
    useEffect(() => {
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }) => {
          setAuthState({
             token: null,
             authenticated: false,
-            user: { username: "", id: null, balance: 0 },
+            user: { username: "", id: null, balance: 0, image: "" },
          });
       }
    };
@@ -281,6 +282,7 @@ export const AuthProvider = ({ children }) => {
                username: data.telegram_username,
                id: data.user_id,
                balance: data.balance,
+               image: data.profile_photo_url,
             },
          });
       } catch (error) {
@@ -300,6 +302,7 @@ export const AuthProvider = ({ children }) => {
                username: "",
                id: null,
                balance: 0,
+               image: "",
             },
          });
       } catch (e) {

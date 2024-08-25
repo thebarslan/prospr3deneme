@@ -81,7 +81,9 @@ export default function Home() {
                   telegramId,
                   telegramUsername
                );
-               setTelegramPhotoUrl(result.profile_photo_url);
+               let imageUrl = result.profile_photo_url;
+               setTelegramPhotoUrl(imageUrl);
+               console.log(imageUrl);
                console.log("Logged In", result);
             } catch (error) {
                console.log(error);
@@ -185,7 +187,7 @@ export default function Home() {
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
-                  {telegramPhotoUrl !== "" ? (
+                  {authState.user.image !== "" ? (
                      <Image
                         src={telegramPhotoUrl}
                         width={96}
