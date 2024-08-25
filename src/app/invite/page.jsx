@@ -98,11 +98,17 @@ const Invite = () => {
                   </h5>
                </div>
                <div className="invite-img flex items-center justify-center relative">
-                  <Image src={GiftImage} className="h-[40px] w-auto" />
-                  <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
-                     <div className="text ml-20 flex items-center gap-1">
-                        <h5 className="text-[16px]">+1000</h5>
-                        <CoinIcon size={20} />
+                  <div className="container flex items-center w-auto justify-center">
+                     <Image src={GiftImage} className="h-[40px] w-auto" />
+                     <div className="w-[50px] bg-red-400 h-full flex items-center">
+                        <div className="text flex items-center gap-1 relative">
+                           <h5 className="text-[16px] absolute -left-4 -top-1">
+                              +1000
+                           </h5>
+                           <div className="absolute left-8 -top-[1px] ">
+                              <CoinIcon size={20} />
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -117,11 +123,17 @@ const Invite = () => {
                   </h5>
                </div>
                <div className="invite-img flex items-center justify-center relative">
-                  <Image src={GiftImage2} className="h-[40px] w-auto" />
-                  <div className="absolute left-1/2 bottom-0 -translate-x-1/2">
-                     <div className="text ml-20 flex items-center gap-1">
-                        <h5 className="text-[16px]">+5%</h5>
-                        <CoinIcon size={20} />
+                  <div className="container flex items-center w-auto justify-center">
+                     <Image src={GiftImage2} className="h-[40px] w-auto" />
+                     <div className="w-[50px]  h-full flex items-center">
+                        <div className="text flex items-center gap-1 relative">
+                           <h5 className="text-[16px] absolute -left-2 -top-1">
+                              +5%
+                           </h5>
+                           <div className="absolute left-6 -top-[1px] ">
+                              <CoinIcon size={20} />
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>

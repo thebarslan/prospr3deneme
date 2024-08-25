@@ -66,7 +66,6 @@ export default function Home() {
             setTelegramUser(user);
             setTelegramId(user.id);
             setTelegramUsername(user.username);
-            setTelegramPhotoUrl(user.photo_url);
             setError("User authenticated via Telegram.");
          } else {
             // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
@@ -82,6 +81,7 @@ export default function Home() {
                   telegramId,
                   telegramUsername
                );
+               setTelegramPhotoUrl(result.profile_photo_url);
                console.log("Logged In", result);
             } catch (error) {
                console.log(error);
