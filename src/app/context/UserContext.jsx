@@ -4,8 +4,8 @@ import axios from "axios";
 import Loader from "../components/loader";
 import { usePathname } from "next/navigation";
 
-const TOKEN_KEY = "my-jwt";
-const USER_KEY = "user-data";
+const TOKEN_KEY = "prospr-my-jwt";
+const USER_KEY = "prospr-user-data";
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
