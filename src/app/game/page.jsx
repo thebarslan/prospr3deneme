@@ -18,11 +18,23 @@ const CoinIconPressable = ({
    defaultImage,
    secondImage,
    thirdImage,
+   onBombPress,
+   onFreezePress,
+   freezeNumber = 1,
 }) => {
    const handleInteraction = (event) => {
+      if (type === 2) {
+         onBombPress();
+         console.log("BOMB");
+      }
+      if (type === 3) {
+         onFreezePress();
+         console.log("FREEZE");
+      }
       event.preventDefault();
 
       // Get the icon's position
+
       const { x, y } = divRef.current.getBoundingClientRect();
 
       // Gain points and remove the coin icon immediately
@@ -57,7 +69,7 @@ const CoinIconPressable = ({
                onRemove(id); // Remove the icon if it's out of view
             }
          }
-      }, moveSpeed); // Adjust the '30' for smoother/faster movement
+      }, moveSpeed * freezeNumber); // Adjust the '30' for smoother/faster movement
 
       return () => clearInterval(moveInterval);
    }, [id, onRemove]);
@@ -96,6 +108,13 @@ const Game = () => {
    const [coinIcons, setCoinIcons] = useState([]);
    const [timeLeft, setTimeLeft] = useState(60);
    const { onGameEndSendScore } = useAuth();
+   const [FreezeNumber, setFreezeNumber] = useState(1);
+   const [BombPressed, setBombPressed] = useState(false);
+   const [FreezePressed, setFreezePressed] = useState(false);
+   const bombHitEffectRef = useRef(null);
+   const freezeHitEffectRef = useRef(null);
+
+   const [BackgroundImage, setBackgroundImage] = useState("");
 
    useEffect(() => {
       if (!isGameOver && !loading) {
@@ -108,12 +127,29 @@ const Game = () => {
                   return 0;
                }
             });
-         }, 1000);
+         }, 1000 * FreezeNumber);
          return () => {
             clearInterval(timerInterval);
          };
       }
-   }, [isGameOver, loading]);
+   }, [isGameOver, loading, FreezeNumber]);
+
+   const handleBombPress = () => {
+      setBombPressed(true);
+      setTimeout(() => {
+         setBombPressed(false);
+      }, 800);
+   };
+
+   const handleFreeze = () => {
+      setFreezeNumber(3);
+      setFreezePressed(true);
+      console.log("abc");
+      setTimeout(() => {
+         setFreezeNumber(1);
+         setFreezePressed(false);
+      }, 5000);
+   };
 
    useEffect(() => {
       handleStartGame();
@@ -121,6 +157,7 @@ const Game = () => {
          try {
             setLoading(true);
             const result = await onGetGameSettings();
+            console.log(result);
             let tempSpawnSpeed = result.spawn_speed;
             tempSpawnSpeed = ((100 - tempSpawnSpeed) / 100) * 500;
             console.log(tempSpawnSpeed);
@@ -134,9 +171,11 @@ const Game = () => {
             setDefaultImage(result.game_icon);
             setSecondImage(result.game_icon2);
             setThirdImage(result.game_icon3);
+            setBackgroundImage(result.background_image);
 
-            // Use setTimeout to introduce a 1-second delay
-            setLoading(false);
+            setTimeout(() => {
+               setLoading(false);
+            }, 1000);
          } catch (error) {
             console.log(error);
          }
@@ -181,15 +220,17 @@ const Game = () => {
             const randomNumber = Math.floor(Math.random() * 100);
 
             let type;
-            if (randomNumber < 75) {
+            if (randomNumber < 70) {
                // 0-74 (75%)
                type = 0;
-            } else if (randomNumber < 90) {
+            } else if (randomNumber < 87) {
                // 75-89 (15%)
                type = 1;
-            } else {
-               // 90-99 (10%)
+            } else if (randomNumber < 97) {
+               // 75-89 (15%)
                type = 2;
+            } else {
+               type = 3;
             }
             const newIcon = {
                id: Date.now(), // Use timestamp for unique id
@@ -242,6 +283,29 @@ const Game = () => {
       }
       setCurrentScore(tempScore);
    };
+
+   useEffect(() => {
+      const handleAnimationEnd = () => {
+         setBombPressed(false);
+      };
+
+      if (bombHitEffectRef.current) {
+         bombHitEffectRef.current.addEventListener(
+            "animationend",
+            handleAnimationEnd
+         );
+      }
+
+      return () => {
+         if (bombHitEffectRef.current) {
+            bombHitEffectRef.current.removeEventListener(
+               "animationend",
+               handleAnimationEnd
+            );
+         }
+      };
+   }, []);
+
    if (loading) {
       return (
          <div className="w-full h-full bg-black">
@@ -249,26 +313,40 @@ const Game = () => {
          </div>
       );
    }
+   /* Ellipse 22 */
+
    return (
       <div className="main w-full h-full flex-1 bg-black flex flex-col relative">
+         {BombPressed && (
+            <div
+               ref={bombHitEffectRef}
+               className="bomb-hit-effect absolute z-[12] w-screen h-[110%] top-0 left-0"
+            ></div>
+         )}
+         {FreezePressed && (
+            <div
+               ref={freezeHitEffectRef}
+               className="freeze-hit-effect absolute z-[11] w-screen h-[110%] top-0 left-0"
+            ></div>
+         )}
          {isGameOver && (
             <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col gap-6 items-center justify-center z-10">
                <button
-                  className="bg-secondary3 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
+                  className="bg-secondary3 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1 relative z-[12]"
                   onClick={handleRestart}
                >
                   <h5 className="text-black text-[17px]">Play Again 10</h5>
                   <CoinIcon size={24} />
                </button>
                <button
-                  className="bg-secondary2 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
+                  className="bg-secondary2 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1 relative z-[12]"
                   onClick={handleRestart}
                >
                   <h5 className="text-black text-[17px]">Earn More Points</h5>
                   <CoinIcon size={24} />
                </button>
                <Link
-                  className="bg-secondary1 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1"
+                  className="bg-secondary1 text-black h-[60px] w-[220px] rounded-xl flex items-center justify-center gap-1 z-[200]"
                   href="/"
                >
                   <h5 className="text-black text-[17px]">
@@ -278,8 +356,12 @@ const Game = () => {
             </div>
          )}
          <Image
-            src={VectorBG}
+            src={BackgroundImage}
             className="absolute w-full h-[130%] vector-bg -top-[76px] rotate-180"
+            width={800}
+            height={800}
+            priority={true}
+            loading="eager"
          />
          <div className="absolute top-6 w-full h-[42px]  px-6 ">
             <div className="flex justify-between w-full h-full">
@@ -298,7 +380,6 @@ const Game = () => {
                </div>
             </div>
          </div>
-
          <div className="spawn-point absolute -top-20 w-full">
             <div className="spawn-point relative w-full h-20 bg-red-400">
                {coinIcons.map((icon) => (
@@ -313,6 +394,9 @@ const Game = () => {
                      defaultImage={defaultImage}
                      secondImage={secondImage}
                      thirdImage={thirdImage}
+                     onBombPress={handleBombPress}
+                     onFreezePress={handleFreeze}
+                     freezeNumber={FreezeNumber}
                   />
                ))}
             </div>

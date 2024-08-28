@@ -132,3 +132,85 @@
    animation: particle-move 0.5s ease-out forwards;
    pointer-events: none;
 }
+
+.bomb-hit-effect {
+   background: rgba(255, 4, 4, 0.4);
+   filter: blur(90.85px);
+   animation: bomb-anim 0.6 ease-in;
+   pointer-events: none;
+}
+@keyframes bomb-anim {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+/* Ellipse 23 */
+
+.freeze-hit-effect {
+   background: rgba(40, 125, 252, 0.3);
+   filter: blur(90.85px);
+   animation: bomb-anim 0.6 ease-in;
+   pointer-events: none;
+}
+
+.invite-bonus {
+   height: 100px;
+}
+.my-invites-inside {
+   margin-bottom: 0px;
+}
+.invite-infos {
+   gap: 4px;
+}
+.invite {
+   margin-bottom: 0px;
+}
+.invite-text-title {
+   margin-top: 20px;
+}
+.gift-icon {
+   height: 40px;
+}
+.invite-img {
+   margin-top: 0px;
+}
+@media screen and (min-height: 592px) {
+   .invite-bonus {
+      height: 120px !important;
+   }
+   .my-invites-inside {
+      margin-bottom: 0px !important;
+   }
+   .invite-infos {
+      gap: 4px;
+   }
+   .invite {
+      margin-bottom: 0px;
+   }
+}
+@media screen and (min-height: 680px) {
+   .invite-bonus {
+      height: 140px !important;
+   }
+   .my-invites-inside {
+      margin-bottom: 40px !important;
+   }
+   .invite-infos {
+      gap: 16px;
+   }
+   .invite {
+      margin-bottom: 16px;
+   }
+   .invite-text-title {
+      margin-top: 32px;
+   }
+   .gift-icon {
+      height: 56px;
+   }
+   .invite-img {
+      margin-top: 12px;
+   }
+}

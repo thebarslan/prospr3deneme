@@ -82,16 +82,16 @@ const Invite = () => {
    };
 
    return (
-      <div className="main w-full h-full flex-1 bg-black flex flex-col relative justify-between gap-4">
+      <div className="main w-full h-full flex-1 bg-black flex flex-col relative justify-between">
          <div className="flex flex-col h-full flex-1 w-full  justify-between">
-            <div className="invite-text w-full text-center flex flex-col mt-5 ">
+            <div className="invite-text-title w-full text-center flex flex-col mt-5 ">
                <h5 className="text-[22px]">Invite your friends</h5>
                <h5 className="text-[16px] font-medium mt-1">
                   Earn more points
                </h5>
             </div>
             <div className="invite-infos w-full flex flex-col gap-2 px-6 mt-3 ">
-               <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
+               <div className="invite-bonus w-full rounded-xl bg-grayBg   flex flex-col gap-0 justify-center">
                   <div className="invite-text w-full text-center flex flex-col">
                      <h5 className="text-[15px]">Invite Bonus</h5>
                   </div>
@@ -102,7 +102,7 @@ const Invite = () => {
                   </div>
                   <div className="invite-img flex items-center justify-center relative">
                      <div className="container flex items-center w-auto justify-center">
-                        <Image src={GiftImage} className="h-[40px] w-auto" />
+                        <Image src={GiftImage} className="w-auto gift-icon" />
                         <div className="w-[50px] bg-red-400 h-full flex items-center">
                            <div className="text flex items-center gap-1 relative">
                               <h5 className="text-[16px] absolute -left-4 -top-1">
@@ -127,7 +127,7 @@ const Invite = () => {
                   </div>
                   <div className="invite-img flex items-center justify-center relative">
                      <div className="container flex items-center w-auto justify-center">
-                        <Image src={GiftImage2} className="h-[40px] w-auto" />
+                        <Image src={GiftImage2} className="w-auto gift-icon" />
                         <div className="w-[50px]  h-full flex items-center">
                            <div className="text flex items-center gap-1 relative">
                               <h5 className="text-[16px] absolute -left-2 -top-1">
@@ -147,7 +147,7 @@ const Invite = () => {
                   <h5>My Invites</h5>
                </div>
 
-               <div className="my-invites-inside invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
+               <div className="my-invites-inside w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
                   <div className="slider w-full h-8 rounded-full relative bg-black overflow-hidden">
                      {verifiedInvites !== 0 && (
                         <div
