@@ -1,8 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import HomeIcon from "../assets/images/icons/home.png";
+import HomeSelectedIcon from "../assets/images/icons/homepurple.png";
 import TasksIcon from "../assets/images/icons/tasks.png";
+import TasksSelectedIcon from "../assets/images/icons/taskspurple.png";
 import InviteIcon from "../assets/images/icons/invite.png";
+import InviteSelectedIcon from "../assets/images/icons/invitepurple.png";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -30,7 +33,17 @@ export const BottomNavbar = () => {
          setIndicatorLeft(containerWidth - 26);
       }
    }, [pageIndex]);
-
+   useEffect(() => {
+      if (pathname === "/") {
+         setPageIndex(0);
+      }
+      if (pathname === "/tasks") {
+         setPageIndex(1);
+      }
+      if (pathname === "/invite") {
+         setPageIndex(2);
+      }
+   }, [pathname]);
    if (pathname === "/login") {
       return null; // Don't render the navbar on the login page
    } else {
@@ -42,30 +55,60 @@ export const BottomNavbar = () => {
                   className="item flex flex-col gap-[2px] items-center justify-start"
                   onClick={() => setPageIndex(0)}
                >
-                  <Image src={HomeIcon} width={24} height={24} />
-                  <h5 className="text-[14px] font-bold">Home</h5>
+                  <Image
+                     src={pageIndex === 0 ? HomeSelectedIcon : HomeIcon}
+                     width={24}
+                     height={24}
+                  />
+                  <h5
+                     className={`text-[14px] font-bold ${
+                        pageIndex === 0 ? "text-secondary3" : "text-white"
+                     }`}
+                  >
+                     Home
+                  </h5>
                </Link>
                <Link
                   href="/tasks"
                   className="item flex flex-col gap-[2px] items-center justify-center"
                   onClick={() => setPageIndex(1)}
                >
-                  <Image src={TasksIcon} width={24} height={24} />
-                  <h5 className="text-[14px] font-bold">Tasks</h5>
+                  <Image
+                     src={pageIndex === 1 ? TasksSelectedIcon : TasksIcon}
+                     width={24}
+                     height={24}
+                  />
+                  <h5
+                     className={`text-[14px] font-bold ${
+                        pageIndex === 1 ? "text-secondary3" : "text-white"
+                     }`}
+                  >
+                     Tasks
+                  </h5>
                </Link>
                <Link
                   href="/invite"
                   className="item flex flex-col gap-[2px] items-center justify-start"
                   onClick={() => setPageIndex(2)}
                >
-                  <Image src={InviteIcon} width={24} height={24} />
-                  <h5 className="text-[14px] font-bold">Invite</h5>
+                  <Image
+                     src={pageIndex === 2 ? InviteSelectedIcon : InviteIcon}
+                     width={24}
+                     height={24}
+                  />
+                  <h5
+                     className={`text-[14px] font-bold ${
+                        pageIndex === 2 ? "text-secondary3" : "text-white"
+                     }`}
+                  >
+                     Invite
+                  </h5>
                </Link>
 
-               <div
+               {/* <div
                   className={`indexShow absolute w-4 h-2 bg-secondary3 bottom-0 rounded-t-xl transition-left duration-300`}
                   style={{ left: indicatorLeft }}
-               ></div>
+               ></div> */}
             </div>
          </div>
       );

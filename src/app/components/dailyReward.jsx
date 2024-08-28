@@ -114,35 +114,38 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
 
    return (
       <>
+         {showDailyReward && (
+            <div className="absolute w-full h-full bg-black top-0 left-0 z-[700]"></div>
+         )}
          <AnimatePresence>
             {showDailyReward && (
                <motion.div
                   key="daily-reward"
-                  className="w-full h-[92%] absolute bottom-0 left-0  z-[500]"
+                  className="w-full h-[92%] absolute -bottom-[2px] left-0 z-[12000]"
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   exit={{ y: "100%" }}
                   transition={{ type: "tween", duration: 0.2 }}
                >
-                  <div className="w-full h-full absolute flex bottom-0 left-0 bg-grayBg z-[901] rounded-t-3xl daily-reward-container">
-                     <div className="relative w-full h-full overflow-hidden rounded-t-3xl flex-1 flex">
-                        <div className="inside-container w-full h-full overflow-hidden rounded-t-3xl flex-1 flex flex-col">
+                  <div className="w-full h-full absolute flex bottom-0 left-0 bg-grayBg z-[1000] rounded-t-[52px] daily-reward-container">
+                     <div className="relative w-full h-full overflow-hidden rounded-t-[52px] flex-1 flex">
+                        <div className="inside-container w-full h-full overflow-hidden rounded-t-[52px]  flex-1 flex flex-col">
                            <Image
                               src={ButtonBGHexagon}
-                              width={90}
-                              className="absolute -top-4 -left-0 rotate-90"
+                              width={98}
+                              className="absolute -top-[12px] -left-[0px]"
                               alt="hex"
                            />
                            <Image
-                              src={ButtonBGHexagon2}
-                              width={80}
-                              className="absolute -top-10 right-0"
+                              src={ButtonBGHexagon}
+                              width={98}
+                              className="absolute -top-[32px] right-5"
                               alt="hex"
                            />
                            <div className="top px-6 flex w-full mt-[64px] items-center">
                               <div className="empty w-[40px] h-auto"></div>
                               <div className="title w-full h-auto flex-1 justify-center flex drop-shadow-text">
-                                 <h5 className="text-xl font-bold">
+                                 <h5 className="text-[24px] font-bold">
                                     Daily Reward
                                  </h5>
                               </div>
@@ -179,13 +182,13 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                                                 "border border-secondary3"
                                              }`} // Conditional styling
                                     >
-                                       <span className="text-white text-[13px] font-bold">
+                                       <span className="text-white text-[12px] font-bold">
                                           Day {item.day}
                                        </span>
                                        <span className="text-white font-semibold">
                                           <CoinIcon size={22} />
                                        </span>
-                                       <span className="text-white font-bold text-[15px]">
+                                       <span className="text-white font-bold text-[14px]">
                                           {item.amount}
                                        </span>
                                     </div>
@@ -194,7 +197,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                            </div>
                            <div className="claim-button-container mb-6 flex items-center justify-center mt-0">
                               <button
-                                 className={`w-[60%] rounded-xl bg-secondary3 h-12 text-black ${
+                                 className={`w-[60%] rounded-xl bg-primary1 h-12 text-black ${
                                     !isClaimable && "bg-[#3A0088] text-white"
                                  }`}
                                  onClick={handleClaim}

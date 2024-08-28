@@ -49,20 +49,6 @@ export const AuthProvider = ({ children }) => {
    });
    useEffect(() => {
       loadAuthData();
-
-      // console.log("Token almaya çalıştı");
-      // if (typeof window !== "undefined" && window.localStorage) {
-      //    console.log("Token aldı");
-      //    setAuthState({
-      //       authenticated: !!localStorage.getItem("TOKEN_KEY"),
-      //       user: JSON.parse(localStorage.getItem("USER_KEY")) || {
-      //          username: "",
-      //          id: null,
-      //          balance: 0,
-      //       },
-      //       token: localStorage.getItem("TOKEN_KEY"),
-      //    });
-      // }
    }, []);
    const pathname = usePathname();
 

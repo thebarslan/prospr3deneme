@@ -194,6 +194,7 @@ const Tasks = () => {
                                  <FaCircleCheck
                                     color="#00CD46"
                                     className="text-[#00CD46] w-7 h-auto"
+                                    fill="#00CD46"
                                  />
                               ) : (
                                  <>
@@ -203,7 +204,7 @@ const Tasks = () => {
                                        </div>
                                     ) : (
                                        <button
-                                          className="w-full h-8 bg-secondary2 text-black text-[12px] rounded-xl"
+                                          className="w-full h-8 bg-secondary3 text-black text-[12px] rounded-xl"
                                           onClick={() =>
                                              handleTaskSelection(task)
                                           }
@@ -253,7 +254,9 @@ const Tasks = () => {
                               {task.completed ? (
                                  <FaCircleCheck
                                     color="#00CD46"
+                                    style={{ color: "green" }}
                                     className="text-[#00CD46] w-7 h-auto"
+                                    fill="#00CD46"
                                  />
                               ) : (
                                  <>
@@ -263,7 +266,7 @@ const Tasks = () => {
                                        </div>
                                     ) : (
                                        <button
-                                          className="w-full h-8 bg-secondary2 text-black text-[12px] rounded-xl"
+                                          className="w-full h-8 bg-secondary3 text-black text-[12px] rounded-xl"
                                           onClick={() =>
                                              handleTaskSelection(task)
                                           }
@@ -321,6 +324,7 @@ const Tasks = () => {
                                  <FaCircleCheck
                                     color="#00CD46"
                                     className="text-[#00CD46] w-7 h-auto"
+                                    fill="#00CD46"
                                  />
                               ) : (
                                  <>
@@ -330,7 +334,7 @@ const Tasks = () => {
                                        </div>
                                     ) : (
                                        <button
-                                          className="w-full h-8 bg-secondary2 text-black text-[12px] rounded-xl"
+                                          className="w-full h-8 bg-secondary3  text-black text-[12px] rounded-xl"
                                           onClick={() =>
                                              handleTaskSelection(task)
                                           }

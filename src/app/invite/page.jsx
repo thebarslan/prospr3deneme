@@ -82,91 +82,95 @@ const Invite = () => {
    };
 
    return (
-      <div className="main w-full h-full flex-1 bg-black flex flex-col relative">
-         <div className="invite-text w-full text-center flex flex-col mt-5">
-            <h5 className="text-[22px]">Invite your friends</h5>
-            <h5 className="text-[16px] font-medium -mt-1">Earn more coins</h5>
-         </div>
-         <div className="invite-infos w-full flex flex-col gap-2 px-6 mt-3">
-            <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
-               <div className="invite-text w-full text-center flex flex-col">
-                  <h5 className="text-[15px]">Invite Bonus</h5>
+      <div className="main w-full h-full flex-1 bg-black flex flex-col relative justify-between gap-4">
+         <div className="flex flex-col h-full flex-1 w-full  justify-between">
+            <div className="invite-text w-full text-center flex flex-col mt-5 ">
+               <h5 className="text-[22px]">Invite your friends</h5>
+               <h5 className="text-[16px] font-medium mt-1">
+                  Earn more points
+               </h5>
+            </div>
+            <div className="invite-infos w-full flex flex-col gap-2 px-6 mt-3 ">
+               <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
+                  <div className="invite-text w-full text-center flex flex-col">
+                     <h5 className="text-[15px]">Invite Bonus</h5>
+                  </div>
+                  <div className="invite-text w-full text-center flex flex-col">
+                     <h5 className="text-[12px] font-medium">
+                        Earn 1000 points for you and your friend
+                     </h5>
+                  </div>
+                  <div className="invite-img flex items-center justify-center relative">
+                     <div className="container flex items-center w-auto justify-center">
+                        <Image src={GiftImage} className="h-[40px] w-auto" />
+                        <div className="w-[50px] bg-red-400 h-full flex items-center">
+                           <div className="text flex items-center gap-1 relative">
+                              <h5 className="text-[16px] absolute -left-4 -top-1">
+                                 +1000
+                              </h5>
+                              <div className="absolute left-8 -top-[1px] ">
+                                 <CoinIcon size={20} />
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                </div>
-               <div className="invite-text w-full text-center flex flex-col">
-                  <h5 className="text-[12px] font-medium">
-                     Earn 1000 points for you and your friend
-                  </h5>
-               </div>
-               <div className="invite-img flex items-center justify-center relative">
-                  <div className="container flex items-center w-auto justify-center">
-                     <Image src={GiftImage} className="h-[40px] w-auto" />
-                     <div className="w-[50px] bg-red-400 h-full flex items-center">
-                        <div className="text flex items-center gap-1 relative">
-                           <h5 className="text-[16px] absolute -left-4 -top-1">
-                              +1000
-                           </h5>
-                           <div className="absolute left-8 -top-[1px] ">
-                              <CoinIcon size={20} />
+               <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
+                  <div className="invite-text w-full text-center flex flex-col">
+                     <h5 className="text-[15px]">Invite Boost</h5>
+                  </div>
+                  <div className="invite-text w-full text-center flex flex-col">
+                     <h5 className="text-[12px] font-medium">
+                        Earn 5% of all points earned by your referrals
+                     </h5>
+                  </div>
+                  <div className="invite-img flex items-center justify-center relative">
+                     <div className="container flex items-center w-auto justify-center">
+                        <Image src={GiftImage2} className="h-[40px] w-auto" />
+                        <div className="w-[50px]  h-full flex items-center">
+                           <div className="text flex items-center gap-1 relative">
+                              <h5 className="text-[16px] absolute -left-2 -top-1">
+                                 +5%
+                              </h5>
+                              <div className="absolute left-6 -top-[1px] ">
+                                 <CoinIcon size={20} />
+                              </div>
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
-            <div className="invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center">
-               <div className="invite-text w-full text-center flex flex-col">
-                  <h5 className="text-[15px]">Invite Boost</h5>
+            <div className="my-invites px-6 w-full flex flex-col mt-1 ">
+               <div className="text w-full text-center">
+                  <h5>My Invites</h5>
                </div>
-               <div className="invite-text w-full text-center flex flex-col">
-                  <h5 className="text-[12px] font-medium">
-                     Earn 5% of all points earned by your referrals
-                  </h5>
-               </div>
-               <div className="invite-img flex items-center justify-center relative">
-                  <div className="container flex items-center w-auto justify-center">
-                     <Image src={GiftImage2} className="h-[40px] w-auto" />
-                     <div className="w-[50px]  h-full flex items-center">
-                        <div className="text flex items-center gap-1 relative">
-                           <h5 className="text-[16px] absolute -left-2 -top-1">
-                              +5%
-                           </h5>
-                           <div className="absolute left-6 -top-[1px] ">
-                              <CoinIcon size={20} />
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div className="my-invites px-6 w-full flex flex-col mt-1">
-            <div className="text w-full text-center">
-               <h5>My Invites</h5>
-            </div>
 
-            <div className="my-invites-inside invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
-               <div className="slider w-full h-8 rounded-full relative bg-black overflow-hidden">
-                  {verifiedInvites !== 0 && (
-                     <div
-                        className="absolute h-full left-0 top-0 bg-primary1 rounded-full flex items-center px-4 gap-2"
-                        style={{ width: `${sliderWidth}%` }}
-                     ></div>
-                  )}
-                  <div className="inside absolute flex gap-2 items-center w-full h-full pl-4">
-                     <FaUserFriends />
-                     <h5 className="text-[14px] font-medium ">
-                        Joined: {totalInvites}
+               <div className="my-invites-inside invite-bonus w-full h-[100px] rounded-xl bg-grayBg flex flex-col gap-0 justify-center mt-2 px-5">
+                  <div className="slider w-full h-8 rounded-full relative bg-black overflow-hidden">
+                     {verifiedInvites !== 0 && (
+                        <div
+                           className="absolute h-full left-0 top-0 bg-primary1 rounded-full flex items-center px-4 gap-2"
+                           style={{ width: `${sliderWidth}%` }}
+                        ></div>
+                     )}
+                     <div className="inside absolute flex gap-2 items-center w-full h-full pl-4">
+                        <FaUserFriends />
+                        <h5 className="text-[14px] font-medium ">
+                           Joined: {totalInvites}
+                        </h5>
+                     </div>
+                  </div>
+                  <div className="verified px-2 mt-2">
+                     <h5 className="text-[14px] font-medium">
+                        Verified: {verifiedInvites}
                      </h5>
                   </div>
                </div>
-               <div className="verified px-2 mt-2">
-                  <h5 className="text-[14px] font-medium">
-                     Verified: {verifiedInvites}
-                  </h5>
-               </div>
             </div>
          </div>
-         <div className="invite-part h-full w-full flex items-end mb-[30px]">
+         <div className="invite-part w-full flex items-end mb-[30px] ">
             <div className="invite w-full px-6 flex gap-3 mt-4">
                <button
                   className="invite-a-friend w-full bg-secondary3 h-14 rounded-xl flex-1 flex items-center justify-center"
