@@ -68,11 +68,13 @@ export default function Home() {
             setTelegramUsername(user.username);
             setError("User authenticated via Telegram.");
          } else {
+            router.push("/login");
+            return;
             // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
-            setTelegramId("5577120511");
-            setTelegramUsername("thebarslan");
-            setTelegramPhotoUrl("");
-            setError("Default user loaded.");
+            // setTelegramId("5577120511");
+            // setTelegramUsername("thebarslan");
+            // setTelegramPhotoUrl("");
+            // setError("Default user loaded.");
          }
 
          const handleLogin = async () => {
@@ -188,7 +190,7 @@ export default function Home() {
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
                   {authState?.user && (
                      <>
-                        {authState?.user?.image !== "" ? (
+                        {authState?.user?.image.length > 2 ? (
                            <Image
                               src={authState.user.image}
                               width={96}
