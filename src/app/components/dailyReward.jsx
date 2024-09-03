@@ -42,9 +42,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
    const getUserRewards = async () => {
       try {
          const tempRewards = await onGetUserRewards();
-         console.log("Temp Rewards: ", tempRewards);
-         console.log(tempRewards);
-
+         
          setRewardsInfo(tempRewards);
       } catch (error) {
          console.log(error);
@@ -55,48 +53,96 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
       getDailyRewards();
       getUserRewards();
    }, []);
+   // useEffect(() => {
+   //    const getRewardsTime = () => {
+   //       if (
+   //          rewardsInfo &&
+   //          rewardsInfo.length > 0 &&
+   //          firstUnclaimedReward !== null
+   //       ) {
+   //          console.log(
+   //             "First Unclaimed Reward Day: ",
+   //             firstUnclaimedReward.day
+   //          );
+   //          const lastRewardTime =
+   //             rewardsInfo[firstUnclaimedReward.day - 2].claimed_at || null;
+   //          console.log(rewardsInfo[firstUnclaimedReward.day - 2].claimed_at);
+   //          console.log(rewardsInfo.length);
+   //          console.log("Last Reward Time: ", lastRewardTime);
+   //          const currentTime = new Date(); // Get the current time
+
+   //          // Calculate the time difference in milliseconds
+   //          const timeDifference =
+   //             currentTime.getTime() - new Date(lastRewardTime).getTime();
+   //          console.log("Current Time: ", currentTime);
+   //          console.log("Last Reward Time As Date: ", new Date(lastRewardTime));
+   //          console.log("Time Difference: ", timeDifference);
+   //          console.log(
+   //             "Time Difference As Hours: ",
+   //             timeDifference / 1000 / 60 / 60
+   //          );
+   //          const oneDayMilliseconds = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+
+   //          if (timeDifference < oneDayMilliseconds) {
+   //             setIsClaimable(false);
+   //             console.log("Not Claimable");
+   //             return;
+   //          }
+   //       }
+   //       console.log("Claimable");
+   //       setIsClaimable(true);
+   //    };
+
+   //    getRewardsTime();
+   // }, [rewardsInfo, firstUnclaimedReward]);
+
    useEffect(() => {
       const getRewardsTime = () => {
-         if (
-            rewardsInfo &&
-            rewardsInfo.length > 0 &&
-            firstUnclaimedReward !== null
-         ) {
-            console.log(
-               "First Unclaimed Reward Day: ",
-               firstUnclaimedReward.day
-            );
-            const lastRewardTime =
-               rewardsInfo[firstUnclaimedReward.day - 2]?.claimed_at;
-            console.log(rewardsInfo[firstUnclaimedReward.day - 2].claimed_at);
+        if (
+          rewardsInfo &&
+          rewardsInfo.length > 0 &&
+          firstUnclaimedReward !== null
+        ) {
+          console.log("First Unclaimed Reward Day: ", firstUnclaimedReward.day);
+    
+          // Safe check to ensure index is within bounds and claimed_at is not null
+          const previousReward =
+            rewardsInfo[firstUnclaimedReward.day - 2] || null;
+    
+          if (previousReward && previousReward.claimed_at) {
+            const lastRewardTime = previousReward.claimed_at;
+            console.log(lastRewardTime);
             console.log(rewardsInfo.length);
             console.log("Last Reward Time: ", lastRewardTime);
             const currentTime = new Date(); // Get the current time
-
+    
             // Calculate the time difference in milliseconds
             const timeDifference =
-               currentTime.getTime() - new Date(lastRewardTime).getTime();
+              currentTime.getTime() - new Date(lastRewardTime).getTime();
             console.log("Current Time: ", currentTime);
             console.log("Last Reward Time As Date: ", new Date(lastRewardTime));
             console.log("Time Difference: ", timeDifference);
             console.log(
-               "Time Difference As Hours: ",
-               timeDifference / 1000 / 60 / 60
+              "Time Difference As Hours: ",
+              timeDifference / 1000 / 60 / 60
             );
             const oneDayMilliseconds = 24 * 60 * 60 * 1000; // 1 day in milliseconds
-
+    
             if (timeDifference < oneDayMilliseconds) {
-               setIsClaimable(false);
-               console.log("Not Claimable");
-               return;
+              setIsClaimable(false);
+              console.log("Not Claimable");
+              return;
             }
-         }
-         console.log("Claimable");
-         setIsClaimable(true);
+          } else {
+            console.log("Previous reward is null or claimed_at is null");
+          }
+        }
+        console.log("Claimable");
+        setIsClaimable(true);
       };
-
+    
       getRewardsTime();
-   }, [rewardsInfo, firstUnclaimedReward]);
+    }, [rewardsInfo, firstUnclaimedReward]);    
 
    const getDailyReward = async () => {
       try {

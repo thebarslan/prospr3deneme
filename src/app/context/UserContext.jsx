@@ -274,18 +274,34 @@ export const AuthProvider = ({ children }) => {
          console.log(data);
          localStorage.setItem(TOKEN_KEY, data.token);
          localStorage.setItem(USER_KEY, JSON.stringify(data));
+         if (data.profile_photo_url) {
 
-         setAuthState({
-            token: data.token,
-            authenticated: true,
-            user: {
-               username: data.telegram_username,
-               id: data.user_id,
-               balance: data.balance,
-               image: data.profile_photo_url,
-            },
-         });
-         console.log("ERRRRRRORRRR", data.profile_photo_url);
+            setAuthState({
+               token: data.token,
+               authenticated: true,
+               user: {
+                  username: data.telegram_username,
+                  id: data.user_id,
+                  balance: data.balance,
+                  image: data.profile_photo_url,
+               },
+            });
+
+            console.log("ERRRRRRORRRR", data.profile_photo_url);
+         } else {
+
+            setAuthState({
+               token: data.token,
+               authenticated: true,
+               user: {
+                  username: data.telegram_username,
+                  id: data.user_id,
+                  balance: data.balance,
+               },
+            });
+
+            console.log("ERRRRRRORRRR", error);
+         }
       } catch (error) {
          console.error(error);
       }
