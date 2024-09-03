@@ -68,13 +68,13 @@ export default function Home() {
             setTelegramUsername(user.username);
             setError("User authenticated via Telegram.");
          } else {
-            // router.push("/login");
-
+            router.push("/login");
+            return;
             // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
-            setTelegramId("5577120511");
-            setTelegramUsername("thebarslan");
-            setTelegramPhotoUrl("");
-            setError("Default user loaded.");
+            // setTelegramId("5577120511");
+            // setTelegramUsername("thebarslan");
+            // setTelegramPhotoUrl("");
+            // setError("Default user loaded.");
          }
 
          const handleLogin = async () => {
