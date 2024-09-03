@@ -187,10 +187,11 @@ export default function Home() {
          <div className="profile-part flex-[4] w-full h-full relative flex items-center justify-center">
             <div className="absolute left-0 top-0 w-full h-full main-screen-gradient"></div>
             <div className="profile-info-container flex items-center gap-6 relative z-80">
+               <h5>{authState?.user?.image}</h5>
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
                   {authState?.user && (
                      <>
-                        {authState?.user?.image !== "" ? (
+                        {authState?.user?.image ? (
                            <Image
                               src={authState.user.image}
                               width={96}

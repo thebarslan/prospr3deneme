@@ -275,7 +275,6 @@ export const AuthProvider = ({ children }) => {
          localStorage.setItem(TOKEN_KEY, data.token);
          localStorage.setItem(USER_KEY, JSON.stringify(data));
          if (data.profile_photo_url) {
-
             setAuthState({
                token: data.token,
                authenticated: true,
@@ -289,7 +288,6 @@ export const AuthProvider = ({ children }) => {
 
             console.log("ERRRRRRORRRR", data.profile_photo_url);
          } else {
-
             setAuthState({
                token: data.token,
                authenticated: true,
@@ -299,7 +297,7 @@ export const AuthProvider = ({ children }) => {
                   balance: data.balance,
                },
             });
-
+            console.log("Image: ", data.profile_photo_url);
             console.log("ERRRRRRORRRR", error);
          }
       } catch (error) {
