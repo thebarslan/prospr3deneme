@@ -4,7 +4,7 @@ import GiftImage from "../assets/images/invitegiftimg.png";
 import GiftImage2 from "../assets/images/invitegiftimg2.png";
 import Image from "next/image";
 import CoinIcon from "../components/coinIcon";
-import { FaUserFriends } from "react-icons/fa";
+import { FaCheck, FaUserFriends } from "react-icons/fa";
 import { IoCopyOutline } from "react-icons/io5";
 import Loader from "../components/loader";
 import { useAuth } from "../context/UserContext";
@@ -17,6 +17,8 @@ const Invite = () => {
    const [referrals, setReferrals] = useState([]);
    const [loading, setLoading] = useState(false);
    const [refCode, setRefCode] = useState("");
+
+   const [Copied, setCopied] = useState(false);
 
    const handleInviteClick = () => {
       const tele = window.Telegram?.WebApp;
@@ -73,12 +75,16 @@ const Invite = () => {
          </div>
       );
    }
-
+   const handleCopyIcon = () => {
+      setCopied(true);
+      setTimeout(() => {
+         setCopied(false);
+      }, 2000);
+   };
    const copyRefCode = () => {
-      {
-         console.log(refCode);
-         navigator.clipboard.writeText(refCode);
-      }
+      handleCopyIcon();
+      console.log(refCode);
+      navigator.clipboard.writeText(refCode);
    };
 
    return (
@@ -179,23 +185,33 @@ const Invite = () => {
                   <h5 className="text-black text-[18px]">Invite a friend</h5>
                </button>
                <button
-                  className="copy-link w-14 h-14 bg-secondary3 rounded-xl flex items-center justify-center"
+                  className={`copy-link w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                     Copied ? "bg-[#00CD46]" : "bg-secondary3"
+                  }`}
                   onClick={copyRefCode}
                >
-                  <svg
-                     width="30"
-                     height="30"
-                     viewBox="0 0 29 28"
-                     fill="none"
-                     xmlns="http://www.w3.org/2000/svg"
-                  >
-                     <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M20.3948 6.79435C20.2883 4.95707 18.7647 3.5 16.9007 3.5H7.56738L7.36173 3.50594C5.52446 3.6124 4.06738 5.13604 4.06738 7V16.3333L4.07332 16.539C4.17978 18.3763 5.70342 19.8333 7.56738 19.8333H8.73405V21C8.73405 22.933 10.3011 24.5 12.234 24.5H21.5674C23.5004 24.5 25.0674 22.933 25.0674 21V11.6667C25.0674 9.73367 23.5004 8.16667 21.5674 8.16667H20.4007V7L20.3948 6.79435ZM19.2351 10.5C19.2348 10.5 19.2344 10.5 19.2341 10.5C19.2337 10.5 19.2333 10.5 19.233 10.5H12.234C11.5897 10.5 11.0674 11.0223 11.0674 11.6667V18.6656C11.0674 18.666 11.0674 18.6663 11.0674 18.6667C11.0674 18.667 11.0674 18.6674 11.0674 18.6677V21C11.0674 21.6443 11.5897 22.1667 12.234 22.1667H21.5674C22.2117 22.1667 22.734 21.6443 22.734 21V11.6667C22.734 11.0223 22.2117 10.5 21.5674 10.5H19.2351ZM8.73405 17.5V11.6667C8.73405 9.73367 10.3011 8.16667 12.234 8.16667H18.0674V7C18.0674 6.40169 17.617 5.90858 17.0368 5.84118L16.9007 5.83333H7.56738C6.96907 5.83333 6.47596 6.28371 6.40857 6.86394L6.40072 7V16.3333C6.40072 16.9316 6.8511 17.4248 7.43133 17.4922L7.56738 17.5H8.73405Z"
-                        fill="#212121"
+                  {Copied ? (
+                     <FaCheck
+                        color="white"
+                        className="text-white w-7 h-auto"
+                        fill="white"
                      />
-                  </svg>
+                  ) : (
+                     <svg
+                        width="30"
+                        height="30"
+                        viewBox="0 0 29 28"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                     >
+                        <path
+                           fill-rule="evenodd"
+                           clip-rule="evenodd"
+                           d="M20.3948 6.79435C20.2883 4.95707 18.7647 3.5 16.9007 3.5H7.56738L7.36173 3.50594C5.52446 3.6124 4.06738 5.13604 4.06738 7V16.3333L4.07332 16.539C4.17978 18.3763 5.70342 19.8333 7.56738 19.8333H8.73405V21C8.73405 22.933 10.3011 24.5 12.234 24.5H21.5674C23.5004 24.5 25.0674 22.933 25.0674 21V11.6667C25.0674 9.73367 23.5004 8.16667 21.5674 8.16667H20.4007V7L20.3948 6.79435ZM19.2351 10.5C19.2348 10.5 19.2344 10.5 19.2341 10.5C19.2337 10.5 19.2333 10.5 19.233 10.5H12.234C11.5897 10.5 11.0674 11.0223 11.0674 11.6667V18.6656C11.0674 18.666 11.0674 18.6663 11.0674 18.6667C11.0674 18.667 11.0674 18.6674 11.0674 18.6677V21C11.0674 21.6443 11.5897 22.1667 12.234 22.1667H21.5674C22.2117 22.1667 22.734 21.6443 22.734 21V11.6667C22.734 11.0223 22.2117 10.5 21.5674 10.5H19.2351ZM8.73405 17.5V11.6667C8.73405 9.73367 10.3011 8.16667 12.234 8.16667H18.0674V7C18.0674 6.40169 17.617 5.90858 17.0368 5.84118L16.9007 5.83333H7.56738C6.96907 5.83333 6.47596 6.28371 6.40857 6.86394L6.40072 7V16.3333C6.40072 16.9316 6.8511 17.4248 7.43133 17.4922L7.56738 17.5H8.73405Z"
+                           fill="#212121"
+                        />
+                     </svg>
+                  )}
                </button>
             </div>
          </div>
