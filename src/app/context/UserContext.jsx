@@ -62,9 +62,9 @@ export const AuthProvider = ({ children }) => {
    const loadAuthData = () => {
       try {
          const token = localStorage.getItem(TOKEN_KEY);
-         if (!token) {
-            loginOrCreateWithUsername();
-         }
+         //    if (!token) {
+         //       loginOrCreateWithUsername();
+         //    }
          const storedUserData = localStorage.getItem(USER_KEY);
          // ... rest of your loadAuthData logic
          if (token && storedUserData) {
@@ -105,9 +105,14 @@ export const AuthProvider = ({ children }) => {
 
    const getGameInfo = async () => {
       try {
-         const response = await apiClient.get("/users/users/game_status/", {});
-         const data = response.data;
-         return data;
+         if (authState.authenticated) {
+            const response = await apiClient.get(
+               "/users/users/game_status/",
+               {}
+            );
+            const data = response.data;
+            return data;
+         }
       } catch (error) {
          console.log(error);
       }
@@ -125,35 +130,44 @@ export const AuthProvider = ({ children }) => {
 
    const getBalance = async () => {
       try {
-         const response = await apiClient.get("/users/users/my_balance/", {});
-         const data = response.data;
-         return data;
+         if (authState.authenticated) {
+            const response = await apiClient.get(
+               "/users/users/my_balance/",
+               {}
+            );
+            const data = response.data;
+            return data;
+         }
       } catch (error) {
          console.log(error);
       }
    };
    const getDailyRewards = async () => {
       try {
-         const response = await apiClient.get(
-            "/rewards/user-daily-rewards/reward_status/",
-            {}
-         );
-         const data = response.data;
-         console.log(data);
-         return data;
+         if (authState.authenticated) {
+            const response = await apiClient.get(
+               "/rewards/user-daily-rewards/reward_status/",
+               {}
+            );
+            const data = response.data;
+            console.log(data);
+            return data;
+         }
       } catch (error) {
          console.log(error);
       }
    };
    const getUserRewards = async () => {
       try {
-         const response = await apiClient.get(
-            "/rewards/user-daily-rewards/",
-            {}
-         );
-         const data = response.data;
-         console.log(data);
-         return data;
+         if (authState.authenticated) {
+            const response = await apiClient.get(
+               "/rewards/user-daily-rewards/",
+               {}
+            );
+            const data = response.data;
+            console.log(data);
+            return data;
+         }
       } catch (error) {
          console.log(error);
       }

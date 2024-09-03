@@ -68,13 +68,13 @@ export default function Home() {
             setTelegramUsername(user.username);
             setError("User authenticated via Telegram.");
          } else {
-            router.push("/login");
-            return;
+            // router.push("/login");
+
             // Eğer kullanıcı bilgisi yoksa default değerleri ayarla
-            // setTelegramId("5577120511");
-            // setTelegramUsername("thebarslan");
-            // setTelegramPhotoUrl("");
-            // setError("Default user loaded.");
+            setTelegramId("5577120511");
+            setTelegramUsername("thebarslan");
+            setTelegramPhotoUrl("");
+            setError("Default user loaded.");
          }
 
          const handleLogin = async () => {
@@ -83,9 +83,9 @@ export default function Home() {
                   telegramId,
                   telegramUsername
                );
-               let imageUrl = result.profile_photo_url;
-               setTelegramPhotoUrl(imageUrl);
-               console.log(imageUrl);
+               // let imageUrl = result.profile_photo_url;
+               // setTelegramPhotoUrl(imageUrl);
+               // console.log(imageUrl);
                console.log("Logged In", result);
             } catch (error) {
                console.log(error);
@@ -95,7 +95,7 @@ export default function Home() {
          const handleBalance = async () => {
             try {
                const bal = await onGetBalance();
-               setBalance(bal.balance);
+               setBalance(bal?.balance);
             } catch (error) {
                console.log(error);
             }
@@ -190,7 +190,7 @@ export default function Home() {
                <div className="profile-img w-24 h-24 rounded-full border-primary1 border overflow-hidden">
                   {authState?.user && (
                      <>
-                        {authState?.user?.image.length > 2 ? (
+                        {authState?.user?.image !== "" ? (
                            <Image
                               src={authState.user.image}
                               width={96}
