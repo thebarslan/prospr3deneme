@@ -233,7 +233,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                                  {rewards.map((item) => (
                                     <div
                                        key={item.day} // Key is correctly placed
-                                       className={`reward w-full aspect-[14/15] rounded-xl flex items-center justify-center flex-col gap-[2px] ${
+                                       className={`reward w-full aspect-[14/15] rounded-xl flex items-center justify-center flex-col gap-[2px]  ${
                                           !item.claimed
                                              ? "bg-black"
                                              : "bg-[#191919]"
@@ -261,7 +261,7 @@ const DailyReward = ({ onClose, showDailyReward, onClaim }) => {
                            </div>
                            <div className="claim-button-container mb-6 flex items-center justify-center mt-0">
                               <button
-                                 className={`w-[60%] rounded-xl  h-12 text-white ${
+                                 className={`w-[60%] rounded-xl  h-12 text-white focus:bg-secondary1 focus:text-[#838383] ${
                                     !isClaimable
                                        ? "bg-primary1 text-white"
                                        : "bg-secondary3"
