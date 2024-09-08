@@ -169,15 +169,24 @@ const Tasks = () => {
                         >
                            <div className="left flex gap-3 h-full items-center">
                               <div className="icon-container w-10 flex justify-center items-center">
-                                 {task.task.name.includes("X") && (
-                                    <BsTwitterX className="w-8 h-auto" />
-                                 )}
-
-                                 {task.task.name.includes("Youtube") && (
-                                    <YoutubeIcon className="w-8 h-auto" />
-                                 )}
-                                 {task.task.name.includes("Telegram") && (
-                                    <TelegramIcon className="w-8 h-auto" />
+                                 {task.task.task_icon != null ? (
+                                    <Image
+                                       src={task.task.task_icon}
+                                       width={40}
+                                       height={40}
+                                    />
+                                 ) : (
+                                    <>
+                                       {task.task.name.includes("X") && (
+                                          <BsTwitterX className="w-8 h-auto" />
+                                       )}
+                                       {task.task.name.includes("Youtube") && (
+                                          <YoutubeIcon className="w-8 h-auto" />
+                                       )}
+                                       {task.task.name.includes("Telegram") && (
+                                          <TelegramIcon className="w-8 h-auto" />
+                                       )}
+                                    </>
                                  )}
                               </div>
                               <div className="task-info-container flex flex-col gap-0">
@@ -230,15 +239,24 @@ const Tasks = () => {
                         >
                            <div className="left flex gap-3 h-full items-center">
                               <div className="icon-container w-10 flex justify-center items-center">
-                                 {task.task.name.includes("X") && (
-                                    <BsTwitterX className="w-8 h-auto" />
-                                 )}
-
-                                 {task.task.name.includes("Youtube") && (
-                                    <YoutubeIcon className="w-8 h-auto" />
-                                 )}
-                                 {task.task.name.includes("Telegram") && (
-                                    <TelegramIcon className="w-8 h-auto" />
+                                 {task.task.task_icon != null ? (
+                                    <Image
+                                       src={task.task.task_icon}
+                                       width={40}
+                                       height={40}
+                                    />
+                                 ) : (
+                                    <>
+                                       {task.task.name.includes("X") && (
+                                          <BsTwitterX className="w-8 h-auto" />
+                                       )}
+                                       {task.task.name.includes("Youtube") && (
+                                          <YoutubeIcon className="w-8 h-auto" />
+                                       )}
+                                       {task.task.name.includes("Telegram") && (
+                                          <TelegramIcon className="w-8 h-auto" />
+                                       )}
+                                    </>
                                  )}
                               </div>
                               <div className="task-info-container flex flex-col gap-0">
@@ -292,22 +310,32 @@ const Tasks = () => {
                         >
                            <div className="left flex gap-3 h-full items-center">
                               <div className="icon-container w-10 flex justify-center items-center">
-                                 {task.taskSocial === "Ton" && (
+                                 {task.task.task_icon != null ? (
                                     <Image
-                                       src={TonIcon}
-                                       className="w-10 h-auto"
-                                       alt="ton"
+                                       src={task.task.task_icon}
+                                       width={40}
+                                       height={40}
                                     />
-                                 )}
-                                 {task.taskSocial === "EVM" && (
-                                    <Image
-                                       src={EvmIcon}
-                                       className="w-10 h-auto"
-                                       alt="evm"
-                                    />
-                                 )}
-                                 {task.task.name.includes("Email") && (
-                                    <IoIosMail className="w-9 h-auto" />
+                                 ) : (
+                                    <>
+                                       {task.taskSocial === "Ton" && (
+                                          <Image
+                                             src={TonIcon}
+                                             className="w-10 h-auto"
+                                             alt="ton"
+                                          />
+                                       )}
+                                       {task.taskSocial === "EVM" && (
+                                          <Image
+                                             src={EvmIcon}
+                                             className="w-10 h-auto"
+                                             alt="evm"
+                                          />
+                                       )}
+                                       {task.task.name.includes("Email") && (
+                                          <IoIosMail className="w-9 h-auto" />
+                                       )}
+                                    </>
                                  )}
                               </div>
                               <div className="task-info-container flex flex-col gap-0">
